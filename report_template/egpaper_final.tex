@@ -1,0 +1,828 @@
+\documentclass[10pt,twocolumn,letterpaper, english]{article}
+%
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{algorithm,algcompatible,algpseudocode}
+\usepackage{multirow}
+
+\algnewcommand\INPUT{\item[\textbf{Input:}]}%
+\algnewcommand\OUTPUT{\item[\textbf{Output:}]}%
+
+
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[breaklinks=true,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+%\ifcvprfinal\pagestyle{empty}\fi
+
+\newcommand{\sign}{\mathop{\mathrm{sign}}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
+%cose per gli enunciati
+\theoremstyle{definition}
+\newtheorem{definizione}{Definizione}[section]
+%
+\theoremstyle{plain}
+\newtheorem{theo}{Theorem}[subsection]
+%
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}[subsection]
+%
+\theoremstyle{plain}
+\newtheorem{corollario}{Corollario}[section]
+%
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[subsection]
+%
+\theoremstyle{remark}
+\newtheorem{osservazione}{Observation}[section]
+
+\theoremstyle{remark}
+\newtheorem{ass}{Assumption}[subsection]
+%
+\theoremstyle{definition}
+\newtheorem{esempio}{Esempio}[section]
+%
+\theoremstyle{definition}
+\newtheorem{dimostrazione}{Proof}[section]
+
+\theoremstyle{definition}
+\newtheorem{problema}{Problema}[section]
+
+\theoremstyle{definition}
+\newtheorem{algoritmo}{Algoritmo}[section]
+
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\theta}{\vartheta}
+\renewcommand{\rho}{\varrho}
+\renewcommand{\phi}{\varphi}
+
+\setcounter{page}{1}
+
+\begin{document}
+
+
+
+
+%%%%%%%%% TITLE
+\title{{\large Project for the exam - Optimization for Data Science}\\Frank-Wolfe for White Box Adversarial Attacks}
+
+\author{Eleonora Brasola\\
+{\tt\small Student n° 2007717  }
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Alberto Cocco\\
+{\tt\small Student n° 2020357}
+\and 
+Greta Farnea\\
+{\tt\small Student n° 2019052}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+%\begin{abstract}
+%   The ABSTRACT is to be in fully-justified italicized text, at the top
+%   of the left-hand column, below the author and affiliation
+%   information. Use the word ``Abstract'' as the title, in 12-point
+%   Times, boldface type, centered relative to the column, initially
+%   capitalized. The abstract is to be in 10-point, single-spaced type.
+%   Leave two blank lines after the Abstract, then begin the main text.
+%   Abstract should be no longer than 300 words.
+%\end{abstract}
+
+%************************
+% SCALETTA 
+% INTRODUCTIONS 
+% - Adversarial attacks 
+% - Difference between targeted and untargeted attacks 
+% - Constrained optimization 
+
+% THEORETICAL EXPLANATIONS AND ALGORITHMS 
+% - PGD 
+% - FGSM 
+% - MI-FGSM 
+% - FW-white 
+
+% COMPUTATIONAL POINT OF VIEW 
+% - Test on ImageNet subsets 
+% - Try with different max it, epsilon, step sizes, norms 
+% - Do both un- and targeted attacks 
+
+% COMPARISON OF 
+% - Computational cost in iterations 
+% - Computational cost in time
+% - Success rate
+
+% CONCLUSIONS 
+
+
+%************************ 
+
+
+
+%%%%%%%%% BODY TEXT
+\section{Introduction}
+
+Machine learning models, like neural networks, are found to be vulnerable to \textit{adversarial examples}, that are obtained by modifying examples drawn from the data distribution. 
+The models tend to misclassify such examples that are slightly different from the correctly classified examples. 
+The surprising thing is that this behaviour is proper of a wide variety of machine learning models: adversarial examples reveal some blind spots in the state-of-the-art training algorithms. \\
+
+Many hypothesis have been made to explain such behaviour, a lot of which are related with complexity and depth of the neural networks. 
+In \cite{goodfellow}, it is shown that it is sufficient to have a simple linear model in order to fool it with adversarial examples. It is interesting to notice that an adversarial example generated for one model is often misclassified by other models, moreover these models generally agree on the output, that is they miscalssify a sample into the same class. This can be explained as a result of 'adversarial directions' being highly related to the weights vectors of the model and the fact that in order to provide an adversarial example what matter the most are these direction and not the specific point in space. Moreover different models learn similar function when trained to perform the same task. We refer to this property and \textit{transferability} of the adversarial example. \\ 
+
+In this project, our goal is to implement four different algorithms for Adversarial Attacks. 
+According to Goodfellow \cite{goodfellow}, Dong \cite{momentum}, Chen \cite{frank} and Rinaldi \cite{rinaldi}, we use the \textit{Projected Gradient Descent}, the \textit{Fast Sign Gradient}, the \textit{Momentum Iterative Fast Sign Gradient} and the \textit{Frank-Wolfe-white} methods. 
+
+All of these algorithms belong to the constrained optimization theory, thus their aim is to minimize (or maximize) a function and to comply some restrictions on the domain of the function. 
+
+\subsection{Constrained optimization}
+
+The most general definition of a constrained problem is: 
+\begin{align}
+    \min \,&f(x) \label{min_prob} \\
+    \text{such that } &x \in C \nonumber
+\end{align}
+
+\noindent where $f: \mathbb{R}^n \to \mathbb{R}$ is a convex function and $C \subseteq \mathbb{R}$ is a convex set.
+
+We can define the \textit{set of feasible directions} $F(\bar{x})$ of a point $\bar{x} \in C \ne \emptyset$ as: 
+\begin{align}
+    F(\bar{x}) = \{ d \in \mathbb{R}^n, d \ne 0:\, &\exists \, \delta > 0 \text{ s.t. } \bar{x} + \alpha\, d \in C, \\ &\forall\, \alpha \in (0, \delta) \} . \nonumber
+\end{align}
+
+\noindent We recall this proposition: 
+
+%\textbf{Proposition. }
+\begin{prop}
+ Let $x^* \in C$ be local minimum for problem \ref{min_prob} with $C \subseteq \mathbb{R}^n$ convex and $f \in C^1(\mathbb{R}^n)$. Then 
+\begin{equation}
+    \label{ineq}
+    \nabla f(x^*)^T (x - x^*) \ge 0 \quad \forall x \in C \,. 
+\end{equation}
+
+\end{prop}
+
+
+We can extend this proposition with another one that gives a necessary and sufficient condition for the global minimum: 
+
+%\textbf{Proposition. }
+\begin{prop}
+Let $C \subseteq \mathbb{R}^n$ be a convex set and $f \in C(\mathbb{R}^n)$ be a convex function. A point $x^* \in C$ is a \textit{global minimum} of problem \ref{min_prob} if and only if 
+\begin{equation*}
+    \nabla f(x^*)^T (x - x^*) \ge 0 \quad \forall x \in C \,. 
+\end{equation*}
+\end{prop}
+
+All these properties are valid for a minimization constrained problem such as \ref{min_prob}. 
+
+They can be extended also for a maximization constrained problem, defined as: 
+\begin{align*}
+    \max\, &f(x) \\
+    \text{such that } &x \in C \,.
+\end{align*}
+
+It is an easy derivation since $\max f(x) \equiv \min -f(x)$. \\
+
+One finial key ingredient for constrained optimization is:\\
+
+\textbf{Weierstrass Theorem} A continuous function in $\mathbb{R}$ over a convex set always admits both global maximum and minimum.
+
+\subsection{Adversarial attacks}
+% see Boosting Adv Attacks with Momentum 1-2 
+
+Adversarial examples are used to evaluate the robustness of machine/deep learning models before they effectively used. 
+They are generated by little translations along the gradient direction and, in this way, they add small noise to the examples that are "invisible" to the human eye. 
+However, giving them as input to the machine learning models makes them really confused and they usually generate a wrong output. 
+
+One important property of the adversarial examples is their transferability. 
+In fact, an adversarial example created for a single model usually is adversarial also for others. 
+This reveals that different machine learning models learn the same features and capture the same important characteristics of their training data distribution. \\ 
+
+There exists a variety of algorithms to create and adversarial attacks and in this work we only see few that are based on gradient directions. 
+The main idea is that, given an image as input, we modify each pixel moving along the gradient direction. 
+Furthermore, we need to satisfy some restrictions in order not to go too far from the original input and to obtain an image that, to the human eye, is not different from the other one. \\
+
+In order to define the constrained problem for adversarial attacks, we recall that in this paper we consider classifier models. 
+
+A classifier learns a function $f(x): x \in \mathcal{X} \to y \in \mathcal{Y}$, where $x$ is the input image and $y$ is the label of the prediction and $\mathcal{X}$ and $\mathcal{Y}$ are their domain sets. 
+
+As an error measure, we define a loss function $\ell(y, y_{\text{true}}): (y,y_{\text{true}}) \in \mathcal{Y} \times \mathcal{Y} \to \mathbb{R} $, that usually, for multi-classification purpose, is known as \textit{Categorical Cross Entropy}. 
+The variable $y$ is the predicted label and the variable $y_{\text{true}}$ is the ground-truth target label of the classifier's input $x$. \\  
+
+The main purpose of the adversarial attack algorithms is to make the classifier's output as wrong as possible. 
+Thus, the problem we have to optimize is defined as: 
+\begin{align}
+    \max \, &\ell(x) \label{adv_prob} \\
+    \text{such that } & \Vert x - x_{\text{ori}} \Vert \le \epsilon \nonumber
+\end{align}
+where $\ell(x)$ is the loss function of the classifier, $x_{\text{ori}}$ is the input image, $x$ is the adversarial image and the condition is given by a norm $\Vert \cdot \Vert$ and a tolerance value $\epsilon$. 
+We keep in mind that this problem can be transformed into a minimization problem by taking the opposite of $\ell(x)$ as objective function. 
+
+The notation $\ell(x)$ can be confusing, as we are supposed to have the labels $y$ and $t_{\text{true}}$ as input. 
+For simplicity, we write $\ell(x)$ instead of $\ell(y(x), y_{\text{true}}(x))$, referring to the classifier's loss function for the input $x$. 
+
+The constrain of the problem \ref{adv_prob} ensures that the modifications we are applying are small enough, according to the value of $\epsilon$. 
+The more used norms are the $\Vert \cdot \Vert_1$, $\Vert \cdot \Vert_2$ and $\Vert \cdot \Vert_{\infty}$. 
+
+\subsection{Targeted and untargeted attacks} 
+
+As said before, the adversarial attacks' goal is to make the classifier's output wrong. 
+We can decide whether we want to have control of the wrong output or we just care that the classifier mistakes. 
+For these purposes, there are two types of adversarial methods: \textit{untargeted} ones and \textit{targeted} ones. \\ 
+
+For the untargeted problems, we just refer to \ref{adv_prob}. 
+It does not matter which is the output label of the adversarial example, as long as the classifier is wrong and the confidence of the output is high enough. 
+We are satisfied only to maximize its loss function, according to the restriction on the adversarial image.\\
+
+For the targeted algorithms, the problem is a little different. 
+It is not sufficient to have a high loss value, we want to make the classifier predict a specific target $y_{\text{target}}$. 
+So we want to maximize $\ell(y, y_{\text{true}})$ but also to minimize $\ell(y, y_{\text{target}})$. 
+It has now become a min-max problem and we combine \ref{adv_prob} with the following minimization problem:
+\begin{align*}
+    \min \,\, &\ell(y, y_{\text{target}}) \\ 
+    \text{such that } & \Vert x - x_{\text{ori}} \Vert \le \epsilon \,,
+\end{align*}
+in order to define a new constrained optimization problem for targeted adversarial attacks: 
+\begin{align}
+    \max \,\, & \ell(y(x), y_{\text{true}}(x)) - \ell(y(x), y_{\text{target}}(x)) \label{targ_prob} \\
+    \text{such that } & \Vert x - x_{\text{ori}} \Vert \le \epsilon \nonumber \,.
+\end{align}
+
+
+
+%------------------------------------------------------------------------
+
+\section{Theoretical background}
+Adversarial studies are relatively recent, since the first study has been published in 2013. In general the definition of an attack depends on how much information about the model an adversary can access to and they can be divided into two categories: \textit{white-box attacks} and \textit{black-box attacks}.
+
+In this project we focus on the fist type of attacks where the adversary have full access to the target model, and thus can compute efficiently the gradient. The optimization-based methods proposed for this setting are several and, as stated before, we will analyze and test 4 different methods: \textit{FGSM, PGD, MI-FGSM, FW-White}.
+
+The \textit{FGSM} method works by linearizing the network loss function and ends in just one step. \textit{PGD} and \textit{MI-FGSM} are iterative methods that achieve better result than simple \textit{FGSM} but they both generate adversarial examples near the boundary of the perturbation set. The more recent \textit{FW-white} achieve both high success rates and good adversarial examples.
+
+\subsection{FGSM}
+
+The fast gradient sign method generates an adversarial example $x$ with respect to the $L_{\infty}$ norm following the update rule given by:
+\begin{equation*}
+    x= x_{ori} + \epsilon \sign (\nabla_x \ell(x,y))
+\end{equation*}
+
+Differently from the other three algorithms, the \textit{FGSM} is a one-step gradient-based approach. 
+It is not iterative and update only once the input value $x_{ori}$. 
+
+This method linearizes the cost function around the input value. The idea of linearity is explored in Goodfellow \cite{goodfellow}. \\
+
+The constraint of our problem, $\Vert x - x_{ori} \Vert_\infty  < \epsilon$ is certainly satisfied and it is easy to prove. 
+Each element of the tensor corresponding to the input image $x_{ori}$ is increased or decreased by exactly $\epsilon$. 
+This is due to the fact that the expression  $\sign (\nabla_x \ell(x,y))$  can takes values only in $\{-1, 1\}$. 
+
+\subsection{PGD}
+
+The Projected Gradient method is based on the fact that, considering only the direction of the gradient, without imposing any constraint, we might find a new value for $x_{k+1}$ that is outside the convex set $C$: 
+\begin{equation*}
+    x_{k+1} = x_k - \gamma_k \, \nabla f(x_k) \text{   might be that: } x_{k+1} \notin C \,\,.
+\end{equation*}
+
+In order to overcome this issue, the \textit{PG} method projects back the new point to the nearest point belonging to the set $C$. 
+The procedure of the Algorithm \ref{PGD} is shown in the table below: 
+
+\begin{algorithm}
+\caption{Projected gradient general}\label{PGD}
+\begin{algorithmic}[1]
+\For{$k=1 \dots$}
+  \State Set $ \bar{x}_k = \rho_C(x_k + s_k \nabla f(x_k))$ \Comment{with $s_k > 0$}
+  \State If $\bar{x}_k$ satisfies some specific condition, then STOP
+  \State Set $x_{k+1} = x_k + \gamma_k (\bar{x}_k - x_k)$ \Comment{with $\gamma_k \in (0, 1]$}
+    
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+For consistency in this work, we consider the projection function $\rho_C(\cdot)$ based on the infinite norm $\Vert \cdot \Vert_\infty$. 
+In line 2 of the algorithm \ref{PGD}, the projection $\bar{x}_k$ of a given point $x$ is the solution of the following minimization problem: 
+\begin{equation*}
+    \min_{\bar{x}_k \in C} \Vert x - \bar{x}_k \Vert_\infty \,\,.
+\end{equation*}
+
+The projection function $\rho_C(\cdot)$ ensures that the final output of the algorithm satisfies the constraint. 
+At the end of each iteration, the new point $x_{k+1}$ is certainly in the convex set.
+The line 4 can be re-written as: 
+\begin{equation*}
+    x_{k+1} = x_k + \gamma_k (\bar{x}_k - x_k) = \gamma_k \bar{x}_k + (1-\gamma_k) x_k \,.
+\end{equation*}
+Since $\gamma_k$ is contained in $(0,1]$ and both $x_k$ and $\bar{x}_k$ are contained in the convex set $C$, the above combination is convex and this ensures that $x_{k+1} \in C$. 
+
+\subsection{MI-FGSM}
+
+Here we present the \textit{MI-FGSM} method that is a iterative version of the simple \textit{FGSM} combined with momentum. The momentum methods is, in general, an acceleration technique for gradient based algorithms. It consists in memorizing the past gradient direction in order to avoid narrow valleys, poor local minima or maxima and other issues. Since the \textit{FGSM} ends in one step under the assumption of linearity of the decision boundary \cite{goodfellow} it may easily be stacked into poor local areas thus it is a good idea to combine it with the momentum method.
+
+One additional advantage of momentum in this setting is that it gives a good trade-off between attack ability and the transferability of the adversarial example. \\
+
+
+
+The algorithm scheme is summarized below for untargeted attacks.
+
+\begin{algorithm}
+\caption{MI-FGSM}\label{MI_FGSM}
+\begin{algorithmic}[1]
+\INPUT{A real example $x$, ground-truth label $y$}
+\OUTPUT{An adversarial example $x^\ast$}
+\Require{Size of perturbation $\epsilon$, number of iterations $T$, decay factor $\mu$}
+
+\State Fix $\gamma = \epsilon / T$, $g_0 = 0$ and $x_{0}^\ast$
+\For{$t=0$ to $T-1$}
+    \State Input $x_t$ and obtain the gradient $\nabla_x J(x_t, y)$
+    
+        
+    \State Accumulate velocity \begin{equation*}
+        g_{t+1} = \beta \cdot g_t + \frac{\nabla_x J(x_t, y)}{\Vert \nabla_x J(x_t, y) \Vert_1}
+    \end{equation*}
+    
+    \State Update \begin{equation*}
+        x_{t+1} = x_t + \gamma \cdot \text{sign} (g_{t+1})
+    \end{equation*}
+    
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+In line 1 $\gamma$ is fixed in order to respect the constrain $\Vert x - x_{ori} \Vert_{\infty} \le \epsilon$ and the momentum term can be found in line 4 with a decay factor $\beta$. An adversarial example $x_{T}^{\ast}$ is perturbed in the direction of $g_t$ with a step size of $\gamma$. Moreover at each iteration the current gradient is normalized with its $L_1$ norm (line 4) in order to correct the gradients scale.
+
+\begin{osservazione}
+If $\beta = 0$ the \textit{MI-FSGM} reduces to \textit{FSGM} 
+\end{osservazione}
+
+
+
+\subsection{FW-white}
+
+The Frank Wolf method is an iterative first-order optimization algorithm. It is wildly used in data science since it is a projection-free algorithm and has a smaller cost per iteration w.r.t. projection methods.
+
+In this section we present the Frank Wolf method for white-box attacks proposed in \cite{frank}. 
+The general idea of this method it to call a Linear Minimization Oracle (LMO): starting from a feasible solution, at each iteration we define a descent direction as the solution of:
+\begin{equation*}
+    \min_{x \in C}\nabla f(x_k)^T (x-x_k)
+\end{equation*}
+
+The previous is equivalent to the linear approximation of f in $x_k$:
+\begin{equation*}
+    \min_{x \in C} f(x_k) + \nabla f(x_k)^T (x-x_k)
+\end{equation*}
+
+By the Wirestrass theorem we have that a solution of such problem exists.
+In the context of \textit{white-box attacks} the algorithms introduce an additional momentum $\textbf{m}_t$ term. 
+
+The scheme is summarized below.
+\begin{algorithm}
+\caption{FW-White}\label{FW}
+\begin{algorithmic}[1]
+\INPUT{Number of iterations T, step sizes $\{ \gamma_t \}$}
+\OUTPUT{An adversarial example $x_T$}
+
+\State Set $x = x_0$, $m_{-1} = \nabla_x f(x_0)$
+\For{$t=0$ to $T-1$}
+    \State $m_t = \beta \cdot m_{-1} + (1-\beta) \cdot \nabla f(x_t) $
+    \State $v_t = \text{argmin} (x, m_t) $
+    \State $d_t = v_t - x_t $
+    
+        
+    \State $x_{t+1} = x_t + \gamma_t d_t $
+    
+    
+    
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{prop}The LMO defined in line 4 has a closed-form solution both for $L_2$ and $L_\infty$. \\
+\end{prop}
+\begin{proof}
+Let $\textbf{h}=(x - x_{ori})/ \epsilon$. Than considering line 4 we have
+
+\begin{equation*}
+    \argmin_{\Vert x - x_{ori} \Vert_p \le \epsilon} (x, m_t) = \argmin_{\Vert h \Vert_p \le 1} \epsilon \cdot (h,m_t)\\
+    = \argmax_{\Vert h \Vert_p \le 1} \epsilon \cdot(h, -m_t)
+\end{equation*}
+
+By Holder's inequality (element wise), the maximum value is reached when: 
+\begin{equation*}
+    \left | h_i \right | = c \cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}
+\end{equation*}
+
+Since $\Vert h \Vert_p \le 1$ we have:
+
+\begin{equation*}
+    h_i= - \frac{\sign((m_t)_i)\cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}}{(\sum_{i=1}^d \left | (m_t)_i \right |^{\frac{1}{p-1}} )^{\frac{1}{p}}}
+\end{equation*}
+
+And,
+
+
+\begin{equation*}
+      x_i=\epsilon \cdot - \frac{\sign((m_t)_i)\cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}}{(\sum_{i=1}^d \left | (m_t)_i \right |^{\frac{1}{p-1}} )^{\frac{1}{p}}} + (x_{ori})_i
+\end{equation*}
+
+% DECIDE IF WE WANT TO KEEP CASE P=2
+For $p=2$ we have
+\begin{equation*}
+    v_t= - \frac{\epsilon \cdot m_t}{\Vert m_t \Vert_2} + x _{ori}
+\end{equation*}
+
+For $p= \infty$ we have
+\begin{equation*}
+    v_t = - \epsilon \cdot \sign(m_t) + x_{ori}
+\end{equation*}
+\end{proof}
+
+\begin{osservazione}
+For $T=1$ Algorithm \ref{FW} reduces to the \textit{FGSM}
+\end{osservazione}
+
+\subsubsection{Convergence Analysis for FW-White}
+
+We are in the setting of constrained optimization and in general the loss function for common DNN models are non-convex, thus the gradient norm of $f$ is no longer a proper convergence criterion. We than adapt as a criterion the Frank-Wolfe gap:
+
+\begin{equation} \label{gap}
+    g(x_t)= \max_{x \in C} ( x-x_t, - \nabla f(x_t))
+\end{equation}
+
+There are 2 essential assumption to make in order to provide the convergence guarantee of the algorithm.
+
+\begin{ass}\label{ass1}
+Function $f(\cdot)$ is L-smooth with respect to $x$, i.e. for any $x$, $x'$ it holds that:
+\begin{equation*}
+    f(x') \le f(x) + \nabla f(x)^T (x' - x) + \frac{L}{2} \Vert x' -x \Vert_{2}^2
+\end{equation*}
+\end{ass}
+
+
+
+
+\begin{ass}\label{ass2}
+Set $C$ is bounded with diameter $D$, i.e. $\Vert x' -x \Vert_{2} \le D$ for all $x, x' \in C$
+
+\end{ass}
+
+\begin{lemma}
+Under assumptions \ref{ass2} and \ref{ass1}, for $m_t$ in Algorithm \ref{FW}, it holds that
+
+\begin{equation*}
+    \Vert \nabla f(x_t) - m_t \Vert_{2} \le \frac{\gamma LD}{ 1 - \beta}
+\end{equation*}
+\end{lemma}
+
+\begin{proof}
+By definition of $m_t$ in line 3 we have that the fist term is:
+
+\begin{align*}
+    \Vert \nabla & f(x_t) - m_t \Vert_2 = \\
+    &= \Vert \nabla f(x_t) - \beta m_{t-1} - (1- \beta) \nabla f(x_t) \Vert_2\\
+    &= \beta \cdot \Vert \nabla f(x_t) - m_{t-1} \Vert_{2}\\
+    &= \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t_1}) + \nabla f(x_{t-1}) - m_{t-1} \Vert_{2}\\
+    &\le \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t_1}) \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t_1}) - m_{t-1} \Vert_{2} \\
+    &\le \beta L \Vert x_t - x_{t-1} \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t_1} - m_{t-1} \Vert_{2}
+\end{align*}
+
+     
+    
+    
+
+This holds exploiting the triangle inequality and assumption \ref{ass1}. Looking at line 6 and using assumption \ref{ass2} we also have:
+
+\begin{align*}
+    \Vert x_t - x_{t-1} \Vert_{2} & = \gamma \Vert d_{t-1} \Vert_{2} \\
+    &= \gamma \Vert v_{t-1} - x_{t-1} \Vert_{2} \le \gamma D
+\end{align*}
+
+Combining both these estimates yields:
+
+\begin{align*}
+    \Vert \nabla f & (x_t) - m_t \Vert_2 \le \\
+    &\le \gamma ( \beta LD + \beta^2 LD + \dots + \beta^t \Vert \nabla f(x_0) - m_0 \Vert_2 ) \\
+    & = \gamma(\beta L D + \beta^2 L D + \dots + \beta^{t-1} L D) \\
+    & \le \frac{\gamma L D}{ 1 -\beta}
+\end{align*}
+
+
+    
+\end{proof}
+
+
+\begin{theo}
+Under assumptions \ref{ass2} and \ref{ass1}, let $\gamma_t= \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$, the output of Algorithm \ref{FW} satisfies
+\begin{equation*}
+    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}
+\end{equation*}
+\end{theo}
+
+Therefore the Frank Wolf white-box attack algorithm achieves a $O(1/\sqrt{T})$ convergence rate.
+
+\begin{proof}
+
+By assumption \ref{ass1}, we have:
+\begin{align*}
+    f(x_{t+1}) & \le f(x_t) \nabla f(x_t)^T ( x_{t+1} - x_t) + \frac{L}{2} \Vert x_{t+1} - x_t \Vert_{2}^2 \\
+    &= f(x_t) \gamma \nabla f(x_t)^T ( v_t - x_t) + \frac{L \gamma^2}{2} \Vert v_t - x_t \Vert_{2}^2\\
+    & \le f(x_t) \gamma \nabla f(x_t)^T ( v_t - x_t) + \frac{L D^2 \gamma^2}{2}\\
+    &= f(x_t) + \gamma m_{t}^T ( v_t - x_t) +\\
+    &+ \gamma(\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} 
+\end{align*}
+Now we use the auxiliary quantity:
+\begin{equation*}
+    \Tilde{v}_t = \argmin_{x \in C} (v, \nabla f(x_t)
+\end{equation*}
+
+The Frank Wolf gap (\ref{gap}) implies:
+
+\begin{equation*}
+    g(x_t)= - ( \Tilde{v}_t -x_t, \nabla f(x_t))
+\end{equation*}
+
+And on the other hand in line 5 we find:
+\begin{equation*}
+    v_t= \argmin_{v \in C}(v,m_t) \implies (v_t,m_t) \le (\Tilde{v}_t, m_t)
+\end{equation*}
+
+Combining both the previous equations:
+
+\begin{align*}
+    f(& x_{t+1}) \le f(x_t) + \gamma m_{t}^T ( \Tilde{v}_t - x_t) +\\
+    & + \gamma (\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} \\
+    & = f(x_t) + \gamma \nabla f(x_t)^T (\Tilde{v}_t - x_t) + \\
+    &+ \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \frac{L D^2 \gamma^2}{2}\\
+    &= f(x_t) - \gamma g(x_t) + \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \frac{L D^2 \gamma^2}{2} \\
+    & \le  f(x_t) - \gamma g(x_t) + \gamma D \Vert \nabla f(x_t) - m_t \Vert_2 + \frac{L D^2 \gamma^2}{2}
+\end{align*}
+
+The last inequality holds thanks to Cauchy-Schwarz inequality. Recalling the previous lemma we have:
+
+\begin{equation*}
+    \Vert \nabla f(x_t) - m_t \Vert_{2} \le \frac{\gamma LD}{ 1 - \beta}
+\end{equation*}
+
+And substituting we obtain:
+\begin{equation*}
+    f(x_{t+1} \le f(x_t) - \gamma g(x_t) + \frac{L D^2 \gamma^2}{1 - \beta} + \frac{L D^2 \gamma^2}{2}
+\end{equation*}
+
+Considering all the iterations from $t=0, \dots, T-1$:
+\begin{equation*}
+    f(x_{T}) \le f(x_0) - \sum_{t=0}^{T-1} \gamma g(x_t) + \frac{T L D^2 \gamma^2}{1 - \beta} + \frac{T L D^2 \gamma^2}{2}
+\end{equation*}
+
+Isolating $g(\cdot)$:
+
+\begin{align*}
+    \frac{1}{T}\sum_{t=0}^{T-1} g(x_t) & \le \frac{f(x_0)-f(x_T)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2})\\
+    & \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2})
+\end{align*}
+
+Where we consider that $f(x_T) \ge f(x^\ast)$
+
+In conclusion:
+\begin{equation*}
+    \Tilde{g}_T= \min_{1 \le k \le T}g(x_k) \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2} 
+\end{equation*}
+
+If we let $ \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$ where $C_{\beta}=(3-\beta)/(1-\beta)$ we have:
+
+\begin{equation*}
+    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}
+\end{equation*}
+
+\end{proof}
+
+
+
+
+
+
+
+
+%-------------------------------------------------------------------------
+\section{Test on ImageNet}
+
+Our goal is to compare the attacks of the $4$ algorithms presented before. In order to do so we exploited the \textbf{ImageNet} dataset, in particular we use $100$ different images belonging to the first $0$ to $10$ classes of database. We choose to run our \textbf{Python} code in the \textit{Colab} platform with \textit{runtime} set to \textit{GPU}.
+
+Moreover we decide to attack three different models: 
+\begin{enumerate}
+    \item \textbf{Inception V3}: this model is reported to have a $77.9\%$ top-1 accuracy and a $93.7\%$ top-5 accuracy \cite{keras}.
+    \item \textbf{Inception ResNet-V2}: this model is reported to have a $80.3\%$ top-1 accuracy and a	$95.3\%$ top-5 accuracy \cite{keras}.
+    \item \textbf{MoblieNet V2}: this model is reported to have a $71.3\%$ top-1 accuracy and a	$90.1\%$ top-5 accuracy \cite{keras}.
+    
+\end{enumerate}
+
+
+\subsection{Hyper-parameter selection}
+
+In order to be consistent we the related literature we choose to set the hyper-parameters following the baseline given in \cite{frank}, i.e. we choose to set maximum distortion $\epsilon$, step-size $\gamma$ and proportion in momentum $\beta$ as:
+
+
+\begin{center}
+    \begin{tabular}{l|c|c|c|c}
+    \hline
+     Parameters & PGD & FGSM & MI-FGSM & FW \\
+     \hline
+     $\epsilon$ & $0.05$ & $0.05$ & $0.05$ & $0.05$  \\
+     
+     $\gamma$ & $0.03$ & - & $0.03$ & $0.1$ \\
+     
+     $\beta$ & - & - & $0.9$ & $0.9$  \\
+    \hline
+   \end{tabular}
+\end{center}
+
+Finally we fix maximum number of iteration at $20$.
+
+
+\section{Experiments}
+We divide our experiment in two sub sections, one for targeted attack and one for untargeted attack. As stated before depending on the type of attacks the algorithms reported above need to be slightly modified in order to perform correctly.
+
+For targeted attacks we need to minimize the objective function and we are forcing the model to return a given label $y_{tar}$.
+
+For untargeted attacks we want to maximize the loss with respect to the current image and the correct label. Doing so the model will misclassify the image.
+
+As a mean to compare the results we use the \textit{success rate} ($\%$) computed as the precentage of images misclassified by the models with any amount of confidence, the \textit{average number of iterations} computed as a the average among the minimum number of iteration needed to output a misclassification by the model for each image and the \textit{distortion} of the adversarial example $x^\ast$, computed as $\Vert x_{ori} - x^\ast \Vert_{\infty}$
+
+\subsection{Untargeted attacks}
+
+In the box below are summarized the success rates for all 4 algorithms in both withe box attacks and black box attack, i.e we generate the image on a model and attack the other.
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+ \multicolumn{4}{|c|}{Untargeted Attacks} \\
+ \hline
+  & \textit{Model} & InceptionV3 & InResNetV2 \\
+ \hline
+ 
+ \multirow{4}{5em}{InceptionV3} & PGD   & $cose$*   &  AFG\\
+ & FGSM&   $cose$*  & ALA   \\
+ & MI-FGSM & $cose$* & ALB\\
+ & FW-white & $cose$* & DZA\\
+
+ \hline
+ \multirow{4}{5em}{InResNetV2} & PGD   & -   &  $cose$*\\
+ & FGSM&   AX  & $cose$*   \\
+ & MI-FGSM &AL & $cose$*\\
+ & FW-white &DZ & $cose$*\\
+ \hline
+\end{tabular}
+
+\subsubsection{Inception V3 metrics}
+
+\begin{center}
+    
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+  \textit{Attack} & Success rate & AvgIt & Distortion \\
+ \hline
+ 
+ PGD   & $cose$*   &  AFG &\\
+ FGSM&   $cose$*  & ALA  &  \\
+ MI-FGSM & $cose$* & ALB &\\
+ FW-white & $cose$* & DZA &\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\subsubsection{Inception Res V2 metrics}
+
+\begin{center}
+    
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+  \textit{Attack} & Success rate & AvgIt & Distortion \\
+ \hline
+ 
+ PGD   & $cose$*   &  AFG &\\
+ FGSM&   $cose$*  & ALA  &  \\
+ MI-FGSM & $cose$* & ALB &\\
+ FW-white & $cose$* & DZA &\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Targeted attacks}
+
+Here we report our success rate for targeted attack on both Inception V3 and Inception V4.\\
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+ \multicolumn{4}{|c|}{Targeted Attacks} \\
+ \hline
+  & \textit{Attack} & InceptionV3 & InResNetV2 \\
+ \hline
+ 
+ \multirow{4}{5em}{InceptionV3} & PGD   & $cose$*   &  AFG\\
+ & FGSM&   $cose$*  & ALA   \\
+ & MI-FGSM & $cose$* & ALB\\
+ & FW-white & $cose$* & DZA\\
+
+ \hline
+ \multirow{4}{5em}{InResNetV2} & PGD   & -   &  $cose$*\\
+ & FGSM&   AX  & $cose$*   \\
+ & MI-FGSM &AL & $cose$*\\
+ & FW-white &DZ & $cose$*\\
+ \hline
+\end{tabular}
+
+\subsubsection{Inception V3 metrics}
+
+\begin{center}
+    
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+  \textit{Attack} & Success rate & AvgIt & Distortion \\
+ \hline
+ 
+ PGD   & $cose$*   &  AFG &\\
+ FGSM&   $cose$*  & ALA  &  \\
+ MI-FGSM & $cose$* & ALB &\\
+ FW-white & $cose$* & DZA &\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\subsubsection{Inception Res V2 metrics}
+
+\begin{center}
+    
+
+\begin{tabular}{ |l|c|c|c| }
+ \hline
+  \textit{Attack} & Success rate & AvgIt & Distortion \\
+ \hline
+ 
+ PGD   & $cose$*   &  AFG &\\
+ FGSM&   $cose$*  & ALA  &  \\
+ MI-FGSM & $cose$* & ALB &\\
+ FW-white & $cose$* & DZA &\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\section{Result and comparison}
+
+% COMPARISON OF 
+% - Computational cost in iterations 
+% - Computational cost in time
+% - Success rate
+
+
+We can conclude that the expectation for \textit{Inception V3} are met since our results are comparable with \cite{frank}.
+
+We can see empirically that the cost per iteration drops with the Frank Wolfe based algorithm as well as the amount of distortion.
+
+The methods works best in \textit{Inception V3} and also reach good results in \textit{Inception ResNet V2}.
+
+
+%\section{Conclusion}
+
+
+
+
+
+{\small
+\bibliographystyle{ieee_fullname}
+\bibliography{egbib}
+}
+
+
+
+
+
+
+
+
+
+%-------------------------------------------------------------------------
+
+
+\end{document}
