@@ -5,6 +5,7 @@ import util
 def MI_FGSM_untargeted(model, x, label, label_name, max_iter, eps, stepsize, mu = 0.9) :
     it = 0
     g = 0
+    x_ori = x
     loss = [] 
 
     while (it < max_iter) :
