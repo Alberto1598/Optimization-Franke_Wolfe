@@ -1,5 +1,13 @@
 # Optimization-Franke_Wolfe
 
+## Dependencies
+The following libraries have been used :
+*  `cv2`
+* `matplotlib_pyplot`
+* `numpy`
+* `pandas`
+* `tensorflow`
+
 ## Instructions
 
 In this project we have implemented four optimization methods for generating adversarial examples for both untargeted and targeted attacks ( FGSM, MI-FGSM, PGD, Franke-Wolfe).
