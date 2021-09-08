@@ -124,11 +124,6 @@ def untargeted(images, model, function, epsilon, stepsize=0.03, maxit = 20):
         old_image_probs = model.pretrained_model.predict(images[i][0])
         # get the label and the respective class
         _, old_image_class, old_class_confidence = model.get_imagenet_label(old_image_probs) 
-
-        # ** TO CONTROL **
-        # (?) ci sono imm che fanno 0 iterazioni perchè images[i][2] è diverso da old_image_class (?)
-        # create the new noisy image
-        #new_image, loss, it = function(pretrained_model, images[i][0], images[i][1],images[i][2], max_it, epsilon, stepsize)
         new_image, loss, it = function(model, images[i][0], images[i][1], old_image_class, maxit, epsilon, stepsize)
 
         # append number of iterations 
@@ -317,6 +312,9 @@ def grid_search_targeted(images, model, function, label_index, label_class, epsi
        successes_l_targeted_it.append(successes_rate)
        distortion_l_targeted_it.append(distortion_rate)
      return successes_l_targeted_eps, distortion_l_targeted_eps, successes_l_targeted_it, distortion_l_targeted_it
+
+
+# function involved in plotting graph for grid search
 
 def plot_graphs(targeted, successes_FGSM, successes_eps_PGD, successes_eps_MI, successes_eps_FW, distortion_FGSM,
   distortion_eps_PGD, distortion_eps_MI, distortion_eps_FW, successes_it_PGD, successes_it_MI, successes_it_FW, distortion_it_PGD, distortion_it_MI, distortion_it_FW) :

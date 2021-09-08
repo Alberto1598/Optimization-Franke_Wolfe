@@ -17,7 +17,9 @@ def MI_FGSM_untargeted(model, x, label, label_name, max_iter = 10, eps = 0.05, s
         loss.append(l)
         new_g = (mu* g) + (gradient / tf.norm(gradient, ord = 1))
         g = new_g
+        # clip the new_x inside the bound in order to have || x - x* ||_inf <= eps
         new_x = tf.clip_by_value(x + (stepsize * tf.sign(new_g)), x_ori - eps, x_ori + eps)
+        # clip the new_x in order to have value between 0 and 1 for images
         new_x = tf.clip_by_value(new_x, 0, 1) # UNTARGETED 
         x = new_x
         it += 1

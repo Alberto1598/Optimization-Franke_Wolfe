@@ -13,9 +13,6 @@ def FW_white_untargeted(model, x, label, label_name, max_it = 10, epsilon = 0.05
     l, grad, prediction = util.input_network(model, x, label) 
     if (prediction != label_name):
           break
-    #m_new = beta * m + (1-beta)* grad 
-    # forse bisogna cambiare solo qui il segno e non sotto, 
-    # altriment si cambia tutto m e non solo il gradiente 
     m_new = beta * m - (1-beta)* grad 
     
     loss.append(l)

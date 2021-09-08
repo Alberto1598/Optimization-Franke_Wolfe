@@ -93,12 +93,10 @@ elif (sys.argv[3] == "targeted") :
 		successes, distortion_l, confidence_l, it_l = util.targeted(images, model, fw_white.FW_white_targeted, label_index, label_class, eps, stepsize, max_it)
 
 	elif(sys.argv[2] == "grid_search") :
-		label_name = 150
-		label_class = "sea_lion"
-		successes_FGSM, distortion_FGSM = util.grid_search_targeted(images, model, fgsm.fast_gradient_sign_method_targeted, label_name, label_class, 0.05)
-		successes_eps_PGD, distortion_eps_PGD, successes_it_PGD, distortion_it_PGD = util.grid_search_targeted(images, model, pgd.PGD_targeted, label_name, label_class, 0.05, 0.03)
-		successes_eps_MI, distortion_eps_MI, successes_it_MI, distortion_it_MI = util.grid_search_targeted(images, model, mi_fgsm.MI_FGSM_targeted, label_name, label_class, 0.05, 0.03)
-		successes_eps_FW, distortion_eps_FW, successes_it_FW, distortion_it_FW, = util.grid_search_targeted(images, model, fw_white.FW_white_targeted, label_name, label_class, 0.05, 0.1)
+		successes_FGSM, distortion_FGSM = util.grid_search_targeted(images, model, fgsm.fast_gradient_sign_method_targeted, label_index, label_class, 0.05)
+		successes_eps_PGD, distortion_eps_PGD, successes_it_PGD, distortion_it_PGD = util.grid_search_targeted(images, model, pgd.PGD_targeted, label_index, label_class, 0.05, 0.03)
+		successes_eps_MI, distortion_eps_MI, successes_it_MI, distortion_it_MI = util.grid_search_targeted(images, model, mi_fgsm.MI_FGSM_targeted, label_index, label_class, 0.05, 0.03)
+		successes_eps_FW, distortion_eps_FW, successes_it_FW, distortion_it_FW, = util.grid_search_targeted(images, model, fw_white.FW_white_targeted, label_index, label_class, 0.05, 0.1)
 		util.plot_graphs(True, successes_FGSM, successes_eps_PGD, successes_eps_MI, successes_eps_FW, distortion_FGSM, distortion_eps_PGD, distortion_eps_MI, distortion_eps_FW,
 			successes_it_PGD, successes_it_MI, successes_it_FW, distortion_it_PGD, distortion_it_MI, distortion_it_FW)
 	else :

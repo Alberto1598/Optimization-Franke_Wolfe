@@ -17,7 +17,6 @@ def PGD_untargeted(model, x, label,label_name, max_it=10, epsilon=0.5, s=0.03, a
 
     # "projection"
     # clip because we consider inf norm 
-    #tmp = tf.clip_by_value(tmp, -epsilon,epsilon)
 
     # |xnew - xori| < eps always
 
@@ -25,7 +24,7 @@ def PGD_untargeted(model, x, label,label_name, max_it=10, epsilon=0.5, s=0.03, a
     diff = tf.clip_by_value(tmp-x_ori, -epsilon, epsilon)
     # get point on bound
     tmp= x_ori+diff
-    # update of sutable stepsize in the direction
+    # update of suitable stepsize in the direction
     x_new = x + alpha*(tmp-x)
     x_new = tf.clip_by_value(x_new, 0, 1)
     # will certainly be in the convex set, because alpha < 1 
@@ -55,7 +54,6 @@ def PGD_targeted(model, x, label,label_name, max_it=10, epsilon=0.05, s=0.03, al
 
     # "projection"
     # clip because we consider inf norm 
-    #tmp = tf.clip_by_value(tmp, -epsilon,epsilon)
     diff = tf.clip_by_value(tmp-x_ori, -epsilon, epsilon)
     # get point on bound
     tmp= x_ori+diff
