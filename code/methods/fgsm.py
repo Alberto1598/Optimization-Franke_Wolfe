@@ -3,7 +3,7 @@ import util
 import model
 
 
-def fast_gradient_sign_method_untargeted(model, x, label, eps) :
+def fast_gradient_sign_method_untargeted(model, x, label, eps = 0.05) :
 
     loss, gradient, prediction = util.input_network(model, x, label)
     new_image = x + (eps * tf.sign(gradient)) # UNTARGETED 

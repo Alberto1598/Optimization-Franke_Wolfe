@@ -2,7 +2,7 @@ import tensorflow as tf
 import util
 
 
-def FW_white_untargeted(model, x, label,label_name, max_it, epsilon, step_size,  beta=0.9): 
+def FW_white_untargeted(model, x, label, label_name, max_it = 10, epsilon = 0.05, step_size = 0.03,  beta=0.9): 
   l, m, _ = util.input_network(model,x, label) 
   m = -m
   x_ori = x

@@ -2,7 +2,7 @@ import tensorflow as tf
 import util
 
 
-def MI_FGSM_untargeted(model, x, label, label_name, max_iter, eps, stepsize, mu = 0.9) :
+def MI_FGSM_untargeted(model, x, label, label_name, max_iter = 10, eps = 0.05, stepsize = 0.03, mu = 0.9) :
     it = 0
     g = 0
     x_ori = x
@@ -24,7 +24,7 @@ def MI_FGSM_untargeted(model, x, label, label_name, max_iter, eps, stepsize, mu 
     return x, loss, it
 
 
-def MI_FGSM_targeted(model, x, label, label_name, max_iter, eps, stepsize, mu = 0.9) :
+def MI_FGSM_targeted(model, x, label, label_name, max_iter = 10, eps = 0.05, stepsize = 0.03, mu = 0.9) :
     it = 0
     g = 0
     x_ori = x
