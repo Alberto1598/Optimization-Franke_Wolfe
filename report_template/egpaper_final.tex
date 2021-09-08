@@ -282,35 +282,53 @@ The \textit{FGSM} method works by linearizing the network loss function and ends
 
 \subsection{FGSM}
 
-The fast gradient sign method generates an adversarial example $x$ with respect to the $L_{\infty}$ norm following the update rule given by:
-\begin{equation*}
-    x= x_{\text{ori}} + \epsilon \sign (\nabla_x \ell(x,y)) \,.
-\end{equation*}
-
-Differently from the other three algorithms, the \textit{FGSM} is a one-step gradient-based approach. 
+Differently from the other three algorithms, the \textit{Fast Gradient Sign} method is a one-step gradient-based approach. 
 It is not iterative and updates only once the input value $x_{\text{ori}}$. 
 
-This method linearizes the cost function around the input value. The idea of linearity is explored in Goodfellow \cite{goodfellow}. \\
+This method linearizes the cost function around the input value. 
+%The idea of linearity is explored in Goodfellow \cite{goodfellow}. 
+It must to be applied a perturbation $\eta$ to the original point $x_{\text{ori}}$ and, in Goodfellow \cite{goodfellow}, they suggest to use: 
+\begin{equation*}
+    \eta = \epsilon \sign (\nabla_x \ell(x_{\text{ori}})) \,.
+\end{equation*}
+
+Since in this work we perform both untargeted and targeted attacks, we define the update rule for each of these problem. 
+\begin{align*}
+    &x= x_{\text{ori}} + \epsilon \sign (\nabla_x \ell(x_{\text{ori}})) \quad \text{(untargeted)} \,;\\
+    &x= x_{\text{ori}} - \epsilon \sign (\nabla_x \ell(x_{\text{ori}})) \quad \text{(targeted)} \,. 
+\end{align*}
+
+It can be noticed that what changes is only the sign before the perturbation. 
+This is due to the fact that: 
+\begin{enumerate}
+    \item the function $\ell(x_{\text{ori}})$ stays the same for the two problems; 
+    \item the untargeted attack is a maximization problem, thus we have to move along the direction of the gradient in order to find the maximum. For this reason there is the $+$ sign before the perturbation; 
+    \item the targeted attack is a minimization problem, thus we move in the opposite direction of the gradient in order to find the minimum. For this reason there is the $-$ sign before the perturbation. 
+\end{enumerate}
 
 The constraint of our problem, $\Vert x - x_{\text{ori}} \Vert_\infty  < \epsilon$ is certainly satisfied and it is easy to prove. 
 Each element of the tensor corresponding to the input image $x_{\text{ori}}$ is increased or decreased by exactly $\epsilon$. 
-This is due to the fact that the expression  $\sign (\nabla_x \ell(x,y))$  can take values only in $\{-1, 1\}$. 
+This is due to the fact that the expression  $\sign (\nabla_x \ell(x_\text{ori}))$  can take values only in $\{-1, 1\}$. 
+
+We can deduce that the adversarial images will be on the boundary of the convex set, since we always apply the largest possible perturbation. 
 
 \subsection{PGD}
 
-The Projected Gradient method is based on the fact that, considering only the direction of the gradient, without imposing any constraint, we might find a new value for $x_{k+1}$ that is outside the convex set $C$: 
+The \textit{Projected Gradient} method is iterative and gradient-based approach. 
+It is based on the fact that, considering only the direction of the gradient, without imposing any constraint, we might find a new value for $x_{k+1}$ that is outside the convex set $C$: 
 \begin{equation*}
     x_{k+1} = x_k - \gamma_k \, \nabla f(x_k) \text{   might be that: } x_{k+1} \notin C \,\,.
 \end{equation*}
 
 In order to overcome this issue, the \textit{PGD} method projects back the new point to the nearest point belonging to the set $C$. 
-The procedure of the Algorithm \ref{PGD} is shown in the table below: 
+The procedure of the algorithm is shown in the table \textbf{Algorithm \ref{PGD}}. 
 
 \begin{algorithm}
 \caption{Projected gradient general}\label{PGD}
 \begin{algorithmic}[1]
 \For{$k=1 \dots$}
-  \State Set $ \bar{x}_k = \rho_C(x_k + s_k \nabla f(x_k))$ \Comment{with $s_k > 0$}
+  \State Set $ \bar{x}_k = \rho_C(x_k + s_k \nabla f(x_k))$ \Comment{if untargeted attack, with $s_k > 0$}
+  \State Set $ \bar{x}_k = \rho_C(x_k - s_k \nabla f(x_k))$ \Comment{if targeted $\,\,\,$attack, with $s_k > 0$}
   \State If $\bar{x}_k$ satisfies some specific condition, then STOP
   \State Set $x_{k+1} = x_k + \gamma_k (\bar{x}_k - x_k)$ \Comment{with $\gamma_k \in (0, 1]$}
     
@@ -319,14 +337,16 @@ The procedure of the Algorithm \ref{PGD} is shown in the table below:
 \end{algorithm}
 
 For consistency in this work, we consider the projection function $\rho_C(\cdot)$ based on the infinite norm $\Vert \cdot \Vert_\infty$. 
-In line 2 of the algorithm \ref{PGD}, the projection $\bar{x}_k$ of a given point $x$ is the solution of the following minimization problem: 
+In line 2 and 3 of the algorithm \ref{PGD}, the projection $\bar{x}_k$ over $C$ is the solution of the following minimization problem: 
 \begin{equation*}
-    \min_{\bar{x}_k \in C} \Vert x - \bar{x}_k \Vert_\infty \,\,.
+    \min_{x \in C} \Vert x - (x_k \pm s_k \nabla f(x_k)) \Vert_\infty \,. 
 \end{equation*}
+
+We define the argument of the projection $\rho_C(\cdot)$ according to the type of the attack we are considering and, as done for the \textit{FGSM}, we move along or in the opposite direction of the gradient, adding or subtracting the perturbation to $x_k$. \\
 
 The projection function $\rho_C(\cdot)$ ensures that the final output of the algorithm satisfies the constraint. 
 At the end of each iteration, the new point $x_{k+1}$ is certainly in the convex set.
-The line 4 can be re-written as: 
+The line 5 can be re-written as: 
 \begin{equation*}
     x_{k+1} = x_k + \gamma_k (\bar{x}_k - x_k) = \gamma_k \bar{x}_k + (1-\gamma_k) x_k \,.
 \end{equation*}
@@ -334,52 +354,58 @@ Since $\gamma_k$ is contained in $(0,1]$ and both $x_k$ and $\bar{x}_k$ are cont
 
 \subsection{MI-FGSM}
 
-Here we present the \textit{MI-FGSM} method that is a iterative version of the simple \textit{FGSM} combined with momentum. The momentum methods is, in general, an acceleration technique for gradient based algorithms. It consists in memorizing the past gradient direction in order to avoid narrow valleys, poor local minima or maxima and other issues. Since the \textit{FGSM} ends in one step under the assumption of linearity of the decision boundary \cite{goodfellow} it may easily be stacked into poor local areas thus it is a good idea to combine it with the momentum method.
+Here we present the \textit{Momentum Iterative Fast Sign} method that is a iterative version of the simple \textit{FGSM} combined with momentum. 
+The momentum method is, in general, an acceleration technique for gradient based algorithms. 
+It consists in memorizing the past gradient direction in order to avoid narrow valleys, poor local minima or maxima and other issues. 
+Since the \textit{FGSM} ends in one step under the assumption of linearity of the decision boundary \cite{goodfellow}, it may easily be stacked into poor local areas, thus it is a good idea to combine it with the momentum method.
 
 One additional advantage of momentum in this setting is that it gives a good trade-off between attack ability and the transferability of the adversarial example. \\
 
-
-
-The algorithm scheme is summarized below for untargeted attacks.
+The algorithm scheme is summarized in the \textbf{Algorithm \ref{MI_FGSM}}.
 
 \begin{algorithm}
 \caption{MI-FGSM}\label{MI_FGSM}
 \begin{algorithmic}[1]
 \INPUT{A real example $x$, ground-truth label $y$}
 \OUTPUT{An adversarial example $x^\ast$}
-\Require{Size of perturbation $\epsilon$, number of iterations $T$, decay factor $\mu$}
+\Require{Size of perturbation $\epsilon$, number of iterations $T$, step size $\gamma$, decay factor $\beta$ }
 
-\State Fix $\gamma = \epsilon / T$, $g_0 = 0$ and $x_{0}^\ast$
+\State Fix $g_0 = 0$ and $x_{0}^\ast$ %$\gamma = \epsilon / T$
 \For{$t=0$ to $T-1$}
     \State Input $x_t$ and obtain the gradient $\nabla_x J(x_t, y)$
-    
-        
+
     \State Accumulate velocity \begin{equation*}
         g_{t+1} = \beta \cdot g_t + \frac{\nabla_x J(x_t, y)}{\Vert \nabla_x J(x_t, y) \Vert_1}
     \end{equation*}
     
-    \State Update \begin{equation*}
-        x_{t+1} = x_t + \gamma \cdot \text{sign} (g_{t+1})
-    \end{equation*}
+    \State Update \begin{align*}
+        x_{t+1} = x_t + \gamma \cdot \text{sign} (g_{t+1}) \quad &\text{if untargeted attack}\\ 
+        x_{t+1} = x_t - \gamma \cdot \text{sign} (g_{t+1}) \quad &\text{if targeted attack}
+    \end{align*}
     
 \EndFor
 \end{algorithmic}
 \end{algorithm}
 
-In line 1, $\gamma$ is fixed in order to respect the constrain $\Vert x - x_{\text{ori}} \Vert_{\infty} \le \epsilon$ and the momentum term can be found in line 4 with a decay factor $\beta$. An adversarial example $x_{T}^{\ast}$ is perturbed in the direction of $g_t$ with a step size of $\gamma$. Moreover at each iteration the current gradient is normalized with its $L_1$ norm (line 4) in order to correct the gradients scale.
+In line 1 we initialize the gradient to zero and fix the starting point.
+The momentum term can be found in line 4 with a decay factor $\beta$ and the current gradient is normalized with its $L_1$ norm in order to correct the gradients scale.
+As done in the previous methods, in line 5 we choose the update rule according to the type of attack we are considering.
+An adversarial example $x_{t}^{\ast}$ is perturbed in the direction of $g_t$ (or its opposite) with a step size of $\gamma$. 
+
 
 \begin{osservazione}
 If $\beta = 0$ the \textit{MI-FSGM} reduces to \textit{FSGM}.
 \end{osservazione}
 
 
-
 \subsection{FW-white}
 
-The Frank Wolf method is an iterative first-order optimization algorithm. It is widely used in data science since it is a projection-free algorithm and has a smaller cost per iteration with respect to projection methods.
+The \textit{Frank Wolf} method is an iterative first-order optimization algorithm. 
+It is widely used in data science since it is a projection-free algorithm and has a smaller cost per iteration with respect to projection methods.
 
-In this section, we present the Frank Wolf method for white-box attacks proposed in \cite{frank}. 
-The general idea of this method is to call a \textit{Linear Minimization Oracle} (LMO): starting from a feasible solution, at each iteration we define a descent direction as the solution of:
+In this section, we present the Frank Wolf method for \textit{white-box} attacks proposed in Chen \cite{frank}. 
+The general idea of this method is to call a \textit{Linear Minimization Oracle} (LMO). 
+Starting from a feasible solution, at each iteration we define a descent direction as the solution of:
 \begin{equation*}
     \min_{x \in C}\nabla f(x_k)^T (x-x_k)\,.
 \end{equation*}
