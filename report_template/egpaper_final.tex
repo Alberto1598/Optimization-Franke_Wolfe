@@ -415,39 +415,53 @@ The previous is equivalent to the linear approximation of $f(\cdot)$ in $x_k$:
     \min_{x \in C} f(x_k) + \nabla f(x_k)^T (x-x_k)\,.
 \end{equation*}
 
-By the Wirestrass theorem we have that a solution of such problem exists.
+By the Weierstrass theorem, we have that a solution of such problem exists.
 In the context of \textit{white-box attacks} the algorithms introduce an additional momentum $\textbf{m}_t$ term. 
+The scheme is summarized in the \textbf{Algorithm \ref{FW}}.
 
-The scheme is summarized below.
 \begin{algorithm}
 \caption{FW-White}\label{FW}
 \begin{algorithmic}[1]
-\INPUT{Number of iterations T, step sizes $\{ \gamma_t \}$}
+\INPUT{Number of iterations T, step size $ \gamma$}
 \OUTPUT{An adversarial example $x_T$}
 
-\State Set $x = x_0$, $m_{-1} = \nabla_x f(x_0)$
+\State Set $x_0 = x_{\text{ori}}$, $m_{-1} = \nabla_x f(x_0)$
 \For{$t=0$ to $T-1$}
-    \State $m_t = \beta \cdot m_{-1} + (1-\beta) \cdot \nabla f(x_t) $
-    \State $v_t = \text{argmin} (x, m_t) $
+    \State $m_t = \beta \cdot m_{t-1} - (1-\beta) \cdot \nabla f(x_t) $ \Comment{if untargeted}
+    \State $m_t = \beta \cdot m_{t-1} + (1-\beta) \cdot \nabla f(x_t) $ \Comment{if targeted}
+    \State $v_t = \text{argmin}_{x \in C} \langle x, m_t \rangle = - \epsilon \cdot \sign (m_t) + x_{\text{ori}} $
     \State $d_t = v_t - x_t $
-    
-        
-    \State $x_{t+1} = x_t + \gamma_t d_t $
-    
-    
+    \State $x_{t+1} = x_t + \gamma d_t $
     
 \EndFor
 \end{algorithmic}
 \end{algorithm}
 
+The difference between untargeted and targeted attacks in this case is a little different from the previous methods we have presented. 
+This is because we want not to modify the closed-form solution of the LMO, defined in line 5. 
+For this reason, instead of using two different update rules, we define the momentum term $m_t$ in different ways. 
+
+In line 4, we propose what is done in Chen \cite{frank}; in line 3, since we have to move along the opposite direction of the movement for targeted attacks, we consider $- \nabla f(x_t)$ as the gradient of the cost function. \\
+
+Thanks to the momentum term $m_t$, the LMO direction is stabilized and the convergence of the algorithm is found to be empirically accelerated. 
+
+In line 5, we exploit the closed-form solution for the LMO for the $L_\infty$ norm case. 
+The proof of this formulation is in the following section \ref{LMO} and here we just write the full update rule of line 7:
+\begin{equation*}
+    x_{t+1} = x_t - \gamma \, \epsilon \cdot \sign(m_t) - \gamma (x_t - x_{\text{ori}}) \,.
+\end{equation*}
+The last term of the equation above enforces $x_t$ to be close to $x_{\text{ori}}$ for all of the iterations. 
+We can suppose that the final adversarial image will have smaller distortion with respect to the other algorithms and this is the main advantage of the \textit{FW} method with momentum. 
+
+\subsubsection{LMO closed-form solution} \label{LMO}
 
 \begin{prop}The LMO defined in line 4 has a closed-form solution both for $L_2$ and $L_\infty$. \\
 \end{prop}
 \begin{proof}
 Let $\textbf{h}=(x - x_{ori})/ \epsilon$. Then considering line 4 we have:
 \begin{align*}
-    \argmin_{\Vert x - x_{ori} \Vert_p \le \epsilon} (x, m_t) &= \argmin_{\Vert h \Vert_p \le 1} \epsilon \cdot (h,m_t)\\
-    &= \argmax_{\Vert h \Vert_p \le 1} \epsilon \cdot(h, -m_t)
+    \argmin_{\Vert x - x_{ori} \Vert_p \le \epsilon} (x, m_t) &= \argmin_{\Vert h \Vert_p \le 1} \epsilon \cdot \langle h,m_t \rangle \\
+    &= \argmax_{\Vert h \Vert_p \le 1} \epsilon \cdot \langle h, -m_t \rangle 
 \end{align*}
 
 By H\"{o}lder's inequality (element wise), the maximum value is reached when: 
@@ -489,7 +503,7 @@ For $T=1$ Algorithm \ref{FW} reduces to the \textit{FGSM}.
 We are in a constrained optimization setting and in general the loss function for common DNN models are non-convex, thus the gradient norm of $f$ is no longer a proper convergence criterion. We then adapt as a criterion the Frank-Wolfe gap:
 
 \begin{equation} \label{gap}
-    g(x_t)= \max_{x \in C} ( x-x_t, - \nabla f(x_t))
+    g(x_t)= \max_{x \in C} \langle  x-x_t, - \nabla f(x_t) \rangle
 \end{equation}
 
 There are 2 essential assumption to make in order to provide the convergence guarantee of the algorithm.
@@ -575,18 +589,18 @@ By assumption \ref{ass1}, we have:
 \end{align*}
 Now we use the auxiliary quantity:
 \begin{equation*}
-    \Tilde{v}_t = \argmin_{x \in C} (v, \nabla f(x_t)
+    \Tilde{v}_t = \argmin_{x \in C} \langle v, \nabla f(x_t) \rangle 
 \end{equation*}
 
 The Frank Wolf gap (\ref{gap}) implies:
 
 \begin{equation*}
-    g(x_t)= - ( \Tilde{v}_t -x_t, \nabla f(x_t))
+    g(x_t)= - \langle \Tilde{v}_t -x_t, \nabla f(x_t) \rangle 
 \end{equation*}
 
 And on the other hand in line 5 we find:
 \begin{equation*}
-    v_t= \argmin_{v \in C}(v,m_t) \implies (v_t,m_t) \le (\Tilde{v}_t, m_t)
+    v_t= \argmin_{v \in C}\langle v,m_t \rangle \implies \langle v_t,m_t \rangle  \le  \langle \Tilde{v}_t, m_t \rangle 
 \end{equation*}
 
 Combining both the previous equations:
@@ -627,7 +641,7 @@ Where we consider that $f(x_T) \ge f(x^\ast)$
 
 In conclusion:
 \begin{equation*}
-    \Tilde{g}_T= \min_{1 \le k \le T}g(x_k) \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2} 
+    \Tilde{g}_T= \min_{1 \le k \le T}g(x_k) \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma \Big(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2} \Big)
 \end{equation*}
 
 If we let $ \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$ where $C_{\beta}=(3-\beta)/(1-\beta)$ we have:
@@ -637,11 +651,6 @@ If we let $ \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$ where $C_{\b
 \end{equation*}
 
 \end{proof}
-
-
-
-
-
 
 
 
