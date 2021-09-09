@@ -12,7 +12,7 @@ from model import Model
 # function for plotting images
 def plot_image(image, prediction, title_image, distortion) :
 	plt.figure()
-	plt.imshow(preprocessed_image[0])  # To change [-1, 1] to [0,1]
+	plt.imshow(image[0])  # To change [-1, 1] to [0,1]
 	_, image_class, class_confidence = model.get_imagenet_label(prediction)
 	plt.title('{} : {:.2f}% Confidence \n distortion = {:.4f}'.format(image_class, class_confidence*100, distortion))
 	plt.savefig(title_image)
@@ -27,16 +27,19 @@ model = Model(tf.keras.applications.InceptionV3(include_top=True,
 index = 985
 # define the path of the raw image
 image_path = tf.keras.utils.get_file('sunflower.jpg', "https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg")
+# get the image using the image path
 image_raw = tf.io.read_file(image_path)
+# decode the image
 image = tf.image.decode_image(image_raw)
+# resize the image
 preprocessed_image = util.preprocess(image, model) * 0.5 + 0.5
 
-
+# give the image as input to the model and classify the image
 prediction = model.pretrained_model.predict(preprocessed_image)
 
 
-
-plot_image(preprocessed_image, prediction, "img/original_image.pdf", 0)
+# plot the original image
+plot_image(preprocessed_image, prediction, "img/original_image.png", 0)
 
 
 # FGSM
@@ -46,7 +49,7 @@ distortion = tf.norm(preprocessed_image - new_image, np.inf)
 prediction = model.pretrained_model.predict(new_image)
 print ( "----- FGSM -----")
 print(" distortion : {}".format(distortion))
-plot_image(model, prediction, "img/fgsm.pdf" , distortion)
+plot_image(new_image, prediction, "img/fgsm.png" , distortion)
 
 
 # PGD
@@ -57,7 +60,7 @@ distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- PGD -----")
 print (" iteration : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(model, prediction, "img/pgd.pdf" , distortion)
+plot_image(new_image, prediction, "img/pgd.png" , distortion)
 
 # MI-FGSM
 
@@ -67,7 +70,7 @@ distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- MI-FGSM -----")
 print (" iteration : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(model, prediction, "img/mi_fgsm.pdf" , distortion)
+plot_image(new_image, prediction, "img/mi_fgsm.png" , distortion)
 
 
 # FW-WHITE
@@ -77,4 +80,4 @@ distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- FW-WHITE -----")
 print (" iteration : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(model, prediction, "img/fw_white.pdf" , distortion)
+plot_image(new_image, prediction, "img/fw_white.png" , distortion)
