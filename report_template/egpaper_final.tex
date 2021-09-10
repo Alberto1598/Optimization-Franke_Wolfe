@@ -917,42 +917,6 @@ In the left column, there is the success rate as $y$-axis and in the right one t
 For all the graphs, we keep the same colour legend. 
 The blue line is for the \textit{FGSM}, the red one is for the \textit{PGD} method, the green line is for the \textit{MI-FGSM} and the violet one is for the \textit{FW-white}. 
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/inceptionv3_untargeted_grid.pdf}\\
-  \caption{InceptionV3 - untargeted attack } \label{incV3-unt}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/InceptionV3-targeted_grid.pdf}\\
-  \caption{InceptionV3 - targeted attack } \label{incV3-t}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/ResNet-untargeted_grid.pdf}\\
-  \caption{ResNet - untargeted attack } \label{res-unt}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/ResNet-targeted_grid.pdf}\\
-  \caption{ResNet - targeted attack } \label{res-t}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/MobileNet-Untargeted.jpeg}\\
-  \caption{MobileNet - untargeted attack } \label{mob-unt}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.5\textwidth]{./Images/Mobile_Grid_Targeted.png}\\
-  \caption{MobileNet - targeted attack } \label{mob-t}
-\end{figure}
-
 
 \section{Conclusion}
 
@@ -970,9 +934,50 @@ The methods works best in \textit{Inception V3} and also reach good results in b
 }
 
 
+% *** APPENDIX FOR GRAPHS *** 
+\newpage 
+\onecolumn 
 
 
+\appendix
+\section{Graphs for different $\epsilon$ and number of iteration} \label{appendix-fig}
 
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/inceptionv3_untargeted_grid.pdf}\\
+  \caption{InceptionV3 - untargeted attack } \label{incV3-unt}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/InceptionV3-targeted_grid.pdf}\\
+  \caption{InceptionV3 - targeted attack } \label{incV3-t}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/ResNet-untargeted_grid.pdf}\\
+  \caption{ResNet - untargeted attack } \label{res-unt}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/ResNet-targeted_grid.pdf}\\
+  \caption{ResNet - targeted attack } \label{res-t}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/MobileNet-Untargeted.jpeg}\\
+  \caption{MobileNet - untargeted attack } \label{mob-unt}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{./Images/Mobile_Grid_Targeted.png}\\
+  \caption{MobileNet - targeted attack } \label{mob-t}
+\end{figure}
 
 
 
