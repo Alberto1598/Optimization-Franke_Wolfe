@@ -4,6 +4,8 @@
 \usepackage{times}
 \usepackage{epsfig}
 \usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{multicol}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -689,7 +691,8 @@ In order to be consistent with the related literature, we choose to set the hype
    \end{tabular}
 \end{center}
 
-Finally we fix maximum number of iteration at $20$.\\
+We fixed the maximum number of iterations at $20$ but we have also set two different stopping criteria  : for untargeted attacks we stopped our algorithms when the label assigned to the distorted image from the network become different from the original one, while for targeted attacks we stopped our methods when the label assigned from the network to the distorted image is identical to the one wanted. \\
+
 
 *** stopping criteria *** 
 
@@ -824,13 +827,14 @@ As target class, we use the same for all the models and algorithms.
 We choose the \textit{sea lion} class with index $150$ of \textit{ImageNet} database. 
 
 The \textit{FGSM} is very unsuccessful, it does not fool any proposed model. 
-In this case, we cannot compute any distortion value, since it is computed only for the adversarial images that actually works. 
+In this case, we cannot compute any distortion value, since it is computed only for the adversarial images that actually works. Since it is not an iterative method it is very difficult in only one step
+to retrieve an image with the wanted label.
 
 The \textit{PGD} method attacks well in general, except for the \textit{ResNetV2} model. 
-However, it has the lowest success rate and the highest number of iteration with respect the other two iterative algorithms. 
+However, it has the lowest success rate and the highest number of iteration with respect the other two iterative algorithms. The average distortion is really high due to the aggressive approach of the method : new points produced by PGD are often not in the convex set and the projection operator gives as output points that are very near the boundary of the convex set.
 
 The only one to complete successfully every attack is the \textit{MI-FGSM}. 
-In our experiments, it has $100\,\%$ success rate, but the image distortion is the highest, coinciding with the maximum possible distortion $\epsilon = 0.05$. 
+In our experiments, it has $100\,\%$ success rate, but the image distortion is the highest, coinciding with the maximum possible distortion $\epsilon = 0.05$. On average it is also the method having the lowest number of iterations thank to the momentum technique accelerating the convergence of the algorithm.
 
 The \textit{FW-white} is very successful as well against the three models. 
 It is still the result of a good balance between medium average iteration and a low value for the adversarial image distortion. \\
@@ -913,37 +917,37 @@ In the left column, there is the success rate as $y$-axis and in the right one t
 For all the graphs, we keep the same colour legend. 
 The blue line is for the \textit{FGSM}, the red one is for the \textit{PGD} method, the green line is for the \textit{MI-FGSM} and the violet one is for the \textit{FW-white}. 
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/inceptionv3_untargeted_grid.pdf}\\
   \caption{InceptionV3 - untargeted attack } \label{incV3-unt}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/InceptionV3-targeted_grid.pdf}\\
   \caption{InceptionV3 - targeted attack } \label{incV3-t}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/ResNet-untargeted_grid.pdf}\\
   \caption{ResNet - untargeted attack } \label{res-unt}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/ResNet-targeted_grid.pdf}\\
   \caption{ResNet - targeted attack } \label{res-t}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/MobileNet-Untargeted.jpeg}\\
   \caption{MobileNet - untargeted attack } \label{mob-unt}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.5\textwidth]{report_template/Images/Mobile_Grid_Targeted.png}\\
   \caption{MobileNet - targeted attack } \label{mob-t}
