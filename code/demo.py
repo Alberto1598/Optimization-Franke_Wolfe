@@ -30,9 +30,11 @@ image_path = tf.keras.utils.get_file('sunflower.jpg', "https://storage.googleapi
 # get the image using the image path
 image_raw = tf.io.read_file(image_path)
 # decode the image
+# detects if an image is a bmp, jpg, png, and it converts the input bits string into a tensor
 image = tf.image.decode_image(image_raw)
 # resize the image
 preprocessed_image = util.preprocess(image, model) * 0.5 + 0.5
+
 
 # give the image as input to the model and classify the image
 prediction = model.pretrained_model.predict(preprocessed_image)
