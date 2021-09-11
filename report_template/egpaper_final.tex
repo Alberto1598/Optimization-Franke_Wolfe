@@ -344,7 +344,7 @@ The procedure of the algorithm is shown in the table \textbf{Algorithm \ref{PGD}
 \end{algorithmic}
 \end{algorithm}
 
-For consistency in this work, we consider the projection function $\rho_C(\cdot)$ based on the infinite norm $\Vert \cdot \Vert_\infty$. 
+For consistency in this work, we consider the projection function $\rho_C(\cdot)$ based on the infinity norm $\Vert \cdot \Vert_\infty$. 
 In line 2 and 3 of the algorithm \ref{PGD}, the projection $\bar{x}_k$ over $C$ is the solution of the following minimization problem: 
 \begin{equation*}
     \min_{x \in C} \Vert x - (x_k \pm s_k \nabla f(x_k)) \Vert_\infty \,. 
@@ -380,10 +380,10 @@ The algorithm scheme is summarized in the \textbf{Algorithm \ref{MI_FGSM}}.
 
 \State Fix $g_0 = 0$ and $x_{0}^\ast$ %$\gamma = \epsilon / T$
 \For{$t=0$ to $T-1$}
-    \State Input $x_t$ and obtain the gradient $\nabla_x J(x_t, y)$
+    \State Input $x_t$ and obtain the gradient $\nabla_x f(x_t)$
 
     \State Accumulate velocity \begin{equation*}
-        g_{t+1} = \beta \cdot g_t + \frac{\nabla_x J(x_t, y)}{\Vert \nabla_x J(x_t, y) \Vert_1}
+        g_{t+1} = \beta \cdot g_t + \frac{\nabla_x f(x_t)}{\Vert \nabla_x f(x_t) \Vert_1}
     \end{equation*}
     
     \State Update \begin{align*}
@@ -454,7 +454,7 @@ In line 4, we propose what is done in Chen \cite{frank}; in line 3, since we hav
 Thanks to the momentum term $m_t$, the LMO direction is stabilized and the convergence of the algorithm is found to be empirically accelerated. 
 
 In line 5, we exploit the closed-form solution for the LMO for the $L_\infty$ norm case. 
-The proof of this formulation is in the following section \ref{LMO} and here we just write the full update rule of line 7:
+The proof of this formulation is in the following Section \ref{LMO} and here we just write the full update rule of line 7:
 \begin{equation*}
     x_{t+1} = x_t - \gamma \, \epsilon \cdot \sign(m_t) - \gamma (x_t - x_{\text{ori}}) \,.
 \end{equation*}
@@ -695,12 +695,53 @@ In order to be consistent with the related literature, we choose to set the hype
    \end{tabular}
 \end{center}
 
-We fixed the maximum number of iterations at $20$ but we have also set two different stopping criteria: for untargeted attacks we stopped our algorithms when the label assigned to the distorted image from the network become different from the original one, while for targeted attacks we stopped our methods when the label assigned from the network to the distorted image is identical to the one wanted. \\
+Finally, we fix the maximum number of iterations at $20$. 
 
+\noindent In Section \ref{section:graphs}, we will explore how $\epsilon$ and the number of maximum iterations affect the algorithms performance in terms of success rate and average distortion. 
 
-*** stopping criteria *** 
+but we have also set two different stopping criteria: for untargeted attacks we stopped our algorithms when the label assigned to the distorted image from the network become different from the original one, while for targeted attacks we stopped our methods when the label assigned from the network to the distorted image is identical to the one wanted. \\
 
-*** how we did backprop ? *** 
+\subsection{Cose tecniche su codice non so come dirlo :)}
+
+%*** stopping criteria *** 
+
+We have set two different stopping criteria.
+For untargeted attacks, we stop our algorithms when the label assigned to the distorted image from the network becomes different from the original one.
+While for targeted attacks, we stop our methods when the label assigned from the network to the distorted image is identical to the wanted one.\\ 
+
+%*** how we did backprop 
+*** mettere fonti ? ***
+
+To retrieve the gradient from the models above, \textbf{TensorFlow} platform provides an important tool for machine learning such as \textbf{GradientTape}. 
+Its functions, like \textit{watch} and \textit{gradient}, that allow us to observe the processes inside the models and, from this information, perform the back-propagation with respect to some specific variable.
+
+In our code, we use the function \textit{watch}, that traces the image's tensor we input to the model, and the function \textit{gradient} to obtain the gradient of the loss function with respect the input variable.\\
+
+%*** clip on images [0,1] ***
+
+Another important fact we have to take into account is the pixels' range of the images. 
+We preprocess the ImageNet figures in order to have the correct size for the models and to scale their pixels' interval to $[0,1]$. 
+In our algorithms, at each iteration we clip the elements of the image tensors in $[0,1]$, just to make sure that we do not exit the range. \\
+
+\subsection{Projection for the infinity norm}
+%*** projection in PGM with norm $\infty$ *** 
+
+In the papers we consider for this work, the most common used norm in the infinity one. 
+Hence the projection function we discuss in Algorithm \ref{PGD} for the \textit{PGM} has to be done with respect to the infinite norm. 
+
+We recall that the projection of a point $\bar{x}$ over the set $C$ for a given norm is defined as the optimal solution of the following problem: 
+\begin{equation*}
+    \min_{x \in \mathbb{R}^d} \frac{1}{2} \Vert x - \bar{x} \Vert^2 \qquad \text{subject to } x \in C\,.
+\end{equation*}
+In the case of infinity norm, the condition can be considered equivalent to the following one: 
+\begin{equation*}
+    \min_{x \in \mathbb{R}^d}  \max_i \vert (x - \bar{x})_i \vert \qquad \text{subject to } x \in C\,.
+\end{equation*}
+
+Practically, as suggested in Dong \cite{momentum}, we can clip $\bar{x}$ according to the convex set $C$. 
+Since in the algorithms our convex set is defined as $C = \{ x \,|\, \Vert x - x_{\text{ori}} \Vert_\infty < \epsilon \}$, at each iteration we clip the image tensor $\bar{x}$ in the $\epsilon$ vicinity of $x_{\text{ori}}$. 
+
+We can do this operation by exploiting the function \textbf{clip\_by\_value}, provided by the TensorFlow platform. 
 
 
 \section{Experiments}
@@ -908,8 +949,8 @@ It is still the result of a good balance between medium average iteration and a 
 \end{center}
 
 
-\section{Comparison between the algorithms}
-
+\section{Comparison between the algorithms ***}
+\label{section:graphs}
 % COMPARISON OF 
 % - Computational cost in iterations 
 % - Computational cost in time
