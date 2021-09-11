@@ -25,6 +25,8 @@ model = Model(tf.keras.applications.InceptionV3(include_top=True,
 
 # class index of the correct label
 index = 985
+# class name of index 985 
+label_name = "daisy"
 # define the path of the raw image
 image_path = tf.keras.utils.get_file('sunflower.jpg', "https://storage.googleapis.com/download.tensorflow.org/example_images/592px-Red_sunflower.jpg")
 # get the image using the image path
@@ -43,6 +45,10 @@ prediction = model.pretrained_model.predict(preprocessed_image)
 # plot the original image
 plot_image(preprocessed_image, prediction, "img/original_image.png", 0)
 
+print("------UNTARGETED ATTACKS ------")
+
+print("Our classifier should not classify the image as a {}".format(label_name))
+
 
 # FGSM
 
@@ -51,35 +57,84 @@ distortion = tf.norm(preprocessed_image - new_image, np.inf)
 prediction = model.pretrained_model.predict(new_image)
 print ( "----- FGSM -----")
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/fgsm.png" , distortion)
+plot_image(new_image, prediction, "img/fgsm_untargeted.png" , distortion)
 
 
 # PGD
 
-new_image, loss, it = pgd.PGD_untargeted(model, preprocessed_image, index, "daisy")
+new_image, loss, it = pgd.PGD_untargeted(model, preprocessed_image, index, label_name)
 prediction = model.pretrained_model.predict(new_image)
 distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- PGD -----")
-print (" iteration : {}".format(it))
+print (" iterations : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/pgd.png" , distortion)
+plot_image(new_image, prediction, "img/PGD_untargeted.png" , distortion)
 
 # MI-FGSM
 
-new_image, loss, it = mi_fgsm.MI_FGSM_untargeted(model, preprocessed_image, index, "daisy")
+new_image, loss, it = mi_fgsm.MI_FGSM_untargeted(model, preprocessed_image, index, label_name)
 prediction = model.pretrained_model.predict(new_image)
 distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- MI-FGSM -----")
-print (" iteration : {}".format(it))
+print (" iterations : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/mi_fgsm.png" , distortion)
+plot_image(new_image, prediction, "img/MI_FGSM_untargeted.png" , distortion)
 
 
 # FW-WHITE
-new_image, loss, it = fw_white.FW_white_untargeted(model, preprocessed_image, index, "daisy")
+new_image, loss, it = fw_white.FW_white_untargeted(model, preprocessed_image, index, label_name)
 prediction = model.pretrained_model.predict(new_image)
 distortion = tf.norm(preprocessed_image - new_image, np.inf)
 print ( "----- FW-WHITE -----")
-print (" iteration : {}".format(it))
+print (" iterations : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/fw_white.png" , distortion)
+plot_image(new_image, prediction, "img/fw_white_untargeted.png" , distortion)
+
+
+
+print("------TARGETED ATTACKS ------ \n")
+
+index = 97
+label_name = "drake"
+
+print("Our classifier should classify the image as a {}".format(label_name))
+
+# FGSM
+
+new_image = fgsm.fast_gradient_sign_method_targeted(model, preprocessed_image, index)
+distortion = tf.norm(preprocessed_image - new_image, np.inf)
+prediction = model.pretrained_model.predict(new_image)
+print ( "----- FGSM -----")
+print(" distortion : {}".format(distortion))
+plot_image(new_image, prediction, "img/fgsm_targeted.png" , distortion)
+
+
+# PGD
+
+new_image, loss, it = pgd.PGD_targeted(model, preprocessed_image, index, label_name)
+prediction = model.pretrained_model.predict(new_image)
+distortion = tf.norm(preprocessed_image - new_image, np.inf)
+print ( "----- PGD -----")
+print (" iterations : {}".format(it))
+print(" distortion : {}".format(distortion))
+plot_image(new_image, prediction, "img/PGD_targeted.png" , distortion)
+
+# MI-FGSM
+
+new_image, loss, it = mi_fgsm.MI_FGSM_targeted(model, preprocessed_image, index, label_name)
+prediction = model.pretrained_model.predict(new_image)
+distortion = tf.norm(preprocessed_image - new_image, np.inf)
+print ( "----- MI-FGSM -----")
+print (" iterations : {}".format(it))
+print(" distortion : {}".format(distortion))
+plot_image(new_image, prediction, "img/MI_FGSM_targeted.png" , distortion)
+
+
+# FW-WHITE
+new_image, loss, it = fw_white.FW_white_targeted(model, preprocessed_image, index, label_name)
+prediction = model.pretrained_model.predict(new_image)
+distortion = tf.norm(preprocessed_image - new_image, np.inf)
+print ( "----- FW-WHITE -----")
+print (" iterations : {}".format(it))
+print(" distortion : {}".format(distortion))
+plot_image(new_image, prediction, "img/fw_white_targeted.png" , distortion)
