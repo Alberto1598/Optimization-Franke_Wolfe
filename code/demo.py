@@ -16,6 +16,7 @@ def plot_image(image, prediction, title_image, distortion) :
 	_, image_class, class_confidence = model.get_imagenet_label(prediction)
 	plt.title('{} : {:.2f}% Confidence \n distortion = {:.4f}'.format(image_class, class_confidence*100, distortion))
 	plt.savefig(title_image)
+	print(" predicted class : {}".format(image_class))
 
 
 # define what model to use
@@ -92,7 +93,7 @@ plot_image(new_image, prediction, "img/fw_white_untargeted.png" , distortion)
 
 
 
-print("------TARGETED ATTACKS ------ \n")
+print("\n------TARGETED ATTACKS ------ \n")
 
 index = 97
 label_name = "drake"
