@@ -1,0 +1,905 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.28)  12 SEP 2021 23:54
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**egpaper_final.tex
+(./egpaper_final.tex
+LaTeX2e <2020-10-01> patch level 4
+L3 programming layer <2021-02-18>
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2020/04/10 v1.4m Standard LaTeX document class
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
+)
+\c@part=\count179
+\c@section=\count180
+\c@subsection=\count181
+\c@subsubsection=\count182
+\c@paragraph=\count183
+\c@subparagraph=\count184
+\c@figure=\count185
+\c@table=\count186
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+) (./cvpr.sty
+(./eso-pic.sty
+Package: eso-pic 2002/11/16 v1.1b eso-pic (RN)
+ (./cvpr_eso.sty
+
+LaTeX Warning: You have requested package `eso-pic',
+               but the package provides `everyshi'.
+
+Package: everyshi 2001/05/15 v3.00 EveryShipout Package (MS)
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks15
+))
+(/usr/local/texlive/2021/texmf-dist/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+CVPR 8.5 x 11-Inch Proceedings Style `cvpr.sty'.
+\@ctmp=\skip49
+\@figindent=\skip50
+\cvprrulerbox=\box47
+\cvprrulercount=\count187
+\cvprruleroffset=\dimen139
+\cv@lineheight=\dimen140
+\cv@boxheight=\dimen141
+\cv@tmpbox=\box48
+\cv@refno=\count188
+\cv@tot=\count189
+\cv@tmpc@=\count190
+\cv@tmpc=\count191
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/epsfig.sty
+Package: epsfig 2017/06/25 v1.7b (e)psfig emulation (SPQR)
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2020/08/30 v1.4c Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen142
+\Gin@req@width=\dimen143
+)
+\epsfxsize=\dimen144
+\epsfysize=\dimen145
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/lipsum/lipsum.sty
+(/usr/local/texlive/2021/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2021-02-18 L3 programming layer (loader) 
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count192
+\l__pdf_internal_box=\box49
+))
+(/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-2020-10-
+01.sty
+(/usr/local/texlive/2021/texmf-dist/tex/latex/l3packages/xparse/xparse-generic.
+tex)))
+Package: lipsum 2021-03-03 v2.3 150 paragraphs of Lorem Ipsum dummy text
+ (/usr/local/texlive/2021/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
+File: lipsum.ltd.tex 2021-03-03 v2.3 The Lorem ipsum dummy text
+))
+(/usr/local/texlive/2021/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2019/12/09 v1.8y multicolumn formatting (FMi)
+\c@tracingmulticols=\count193
+
+
+Package multicol Warning: May not work with the twocolumn option on input line 
+141.
+
+\mult@box=\box50
+\multicol@leftmargin=\dimen146
+\c@unbalance=\count194
+\c@collectmore=\count195
+\doublecol@number=\count196
+\multicoltolerance=\count197
+\multicolpretolerance=\count198
+\full@width=\dimen147
+\page@free=\dimen148
+\premulticols=\dimen149
+\postmulticols=\dimen150
+\multicolsep=\skip51
+\multicolbaselineskip=\skip52
+\partial@page=\box51
+\last@line=\box52
+\maxbalancingoverflow=\dimen151
+\mult@rightbox=\box53
+\mult@grightbox=\box54
+\mult@gfirstbox=\box55
+\mult@firstbox=\box56
+\@tempa=\box57
+\@tempa=\box58
+\@tempa=\box59
+\@tempa=\box60
+\@tempa=\box61
+\@tempa=\box62
+\@tempa=\box63
+\@tempa=\box64
+\@tempa=\box65
+\@tempa=\box66
+\@tempa=\box67
+\@tempa=\box68
+\@tempa=\box69
+\@tempa=\box70
+\@tempa=\box71
+\@tempa=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\c@minrows=\count199
+\c@columnbadness=\count266
+\c@finalcolumnbadness=\count267
+\last@try=\dimen152
+\multicolovershoot=\dimen153
+\multicolundershoot=\dimen154
+\mult@nat@firstbox=\box94
+\colbreak@box=\box95
+\mc@col@check@num=\count268
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2020/09/23 v2.17i AMS math features
+\@mathmargin=\skip53
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen155
+))
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen156
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count269
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count270
+\leftroot@=\count271
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count272
+\DOTSCASE@=\count273
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box96
+\strutbox@=\box97
+\big@size=\dimen157
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count274
+\c@MaxMatrixCols=\count275
+\dotsspace@=\muskip16
+\c@parentequation=\count276
+\dspbrk@lvl=\count277
+\tag@help=\toks17
+\row@=\count278
+\column@=\count279
+\maxfields@=\count280
+\andhelp@=\toks18
+\eqnshift@=\dimen158
+\alignsep@=\dimen159
+\tagshift@=\dimen160
+\tagwidth@=\dimen161
+\totwidth@=\dimen162
+\lineht@=\dimen163
+\@envbody=\toks19
+\multlinegap=\skip54
+\multlinetaggap=\skip55
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amscls/amsthm.sty
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks21
+\thm@bodyfont=\toks22
+\thm@headfont=\toks23
+\thm@notefont=\toks24
+\thm@headpunct=\toks25
+\thm@preskip=\skip56
+\thm@postskip=\skip57
+\thm@headsep=\skip58
+\dth@everypar=\toks26
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count281
+\float@exts=\toks27
+\float@box=\box98
+\@float@everytoks=\toks28
+\@floatcapt=\box99
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks29
+\c@algorithm=\count282
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/algorithmicx/algcompatible.sty
+Package: algcompatible 
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/algorithmicx/algorithmicx.sty
+Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
+
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+\c@ALG@line=\count283
+\c@ALG@rem=\count284
+\c@ALG@nested=\count285
+\ALG@tlm=\skip59
+\ALG@thistlm=\skip60
+\c@ALG@Lnr=\count286
+\c@ALG@blocknr=\count287
+\c@ALG@storecount=\count288
+\c@ALG@tmpcounter=\count289
+\ALG@tmplength=\skip61
+)
+Document Style - algorithmic compatible environments for the `algorithmicx' sty
+le
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
+Package: algpseudocode 
+
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip62
+\multirow@cntb=\count290
+\multirow@dima=\skip63
+\bigstrutjot=\dimen164
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2021-02-27 v7.00k Hypertext links for LaTeX
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+)
+\@linkdim=\dimen165
+\Hy@linkcounter=\count291
+\Hy@pagecounter=\count292
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2021-02-27 v7.00k Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-02-27 v7.00k Hyperref: patches for babel la
+nguages
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count293
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2021-02-27 v7.00k Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+Package hyperref Info: Option `breaklinks' set `true' on input line 4073.
+Package hyperref Info: Option `bookmarks' set `false' on input line 4073.
+Package hyperref Info: Hyper figures OFF on input line 4192.
+Package hyperref Info: Link nesting OFF on input line 4197.
+Package hyperref Info: Hyper index ON on input line 4200.
+Package hyperref Info: Plain pages OFF on input line 4207.
+Package hyperref Info: Backreferencing OFF on input line 4212.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks OFF on input line 4451.
+\c@Hy@tempcnt=\count294
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4804.
+\XeTeXLinkMargin=\dimen166
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count295
+\Field@Width=\dimen167
+\Fld@charsize=\dimen168
+Package hyperref Info: Hyper figures OFF on input line 6075.
+Package hyperref Info: Link nesting OFF on input line 6080.
+Package hyperref Info: Hyper index ON on input line 6083.
+Package hyperref Info: backreferencing OFF on input line 6090.
+Package hyperref Info: Link coloring OFF on input line 6095.
+Package hyperref Info: Link coloring with OCG OFF on input line 6100.
+Package hyperref Info: PDF/A mode OFF on input line 6105.
+LaTeX Info: Redefining \ref on input line 6145.
+LaTeX Info: Redefining \pageref on input line 6149.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2020/08/17 v1.0a Emulation of the original atbegshi packa
+ge
+with kernel methods
+)
+\Hy@abspage=\count296
+\c@Item=\count297
+\c@Hfootnote=\count298
+)
+Package hyperref Info: Driver (autodetected): hpdftex.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2021-02-27 v7.00k Hyperref driver for pdfTeX
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atvery packag
+e
+with kernel methods
+)
+\Fld@listcount=\count299
+\c@bookmark@seq@number=\count300
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+(/usr/local/texlive/2021/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip64
+)
+\c@definizione=\count301
+\c@theo=\count302
+\c@lemma=\count303
+\c@corollario=\count304
+\c@prop=\count305
+\c@osservazione=\count306
+\c@ass=\count307
+\c@esempio=\count308
+\c@dimostrazione=\count309
+\c@problema=\count310
+\c@algoritmo=\count311
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 7
+9.
+ (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+(./egpaper_final.aux)
+\openout1 = `egpaper_final.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 79.
+LaTeX Font Info:    ... okay on input line 79.
+ ABD: EveryShipout initializing macros
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2020/02/24 v1.2b Standard LaTeX Color (DPC)
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+(/usr/local/texlive/2021/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count312
+\scratchdimen=\dimen169
+\scratchbox=\box100
+\nofMPsegments=\count313
+\nofMParguments=\count314
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count315
+\MPscratchDim=\dimen170
+\MPnumerator=\count316
+\makeMPintoPDFobject=\count317
+\everyMPtoPDFconversion=\toks31
+) (/usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package hyperref Info: Link coloring OFF on input line 79.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+(/usr/local/texlive/2021/texmf-dist/tex/generic/gettitlestring/gettitlestring.s
+ty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count318
+)
+LaTeX Info: Redefining \ref on input line 79.
+LaTeX Info: Redefining \pageref on input line 79.
+LaTeX Info: Redefining \nameref on input line 79.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 104
+.
+ (/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 104
+.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+04.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
+04.
+
+(/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+)
+Underfull \hbox (badness 1014) in paragraph at lines 149--152
+\OT1/ptm/m/n/10 ob-tained by mod-i-fy-ing ex-am-ples drawn from the data
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 149--152
+
+ []
+
+
+LaTeX Warning: Citation `goodfellow' on page 1 undefined on input line 154.
+
+
+Underfull \hbox (badness 1742) in paragraph at lines 153--155
+[]\OT1/ptm/m/n/10 Many hy-poth-e-sis have been made to ex-plain such
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 153--155
+
+ []
+
+
+LaTeX Warning: Citation `rinaldi' on page 1 undefined on input line 157.
+
+
+LaTeX Warning: Citation `goodfellow' on page 1 undefined on input line 157.
+
+
+LaTeX Warning: Citation `momentum' on page 1 undefined on input line 157.
+
+
+LaTeX Warning: Citation `frank' on page 1 undefined on input line 157.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 207--208
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 209--210
+
+ []
+
+[1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 220--223
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 224--227
+
+ []
+
+
+Underfull \hbox (badness 3343) in paragraph at lines 232--234
+[]\OT1/ptm/m/n/10 As an er-ror mea-sure, we de-fine a loss func-tion
+ []
+
+
+Underfull \hbox (badness 2990) in paragraph at lines 232--234
+\OT1/ptm/m/n/10 multi-classification pur-pose, is known as \OT1/ptm/m/it/10 Cat
+-e-gor-i-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 232--234
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 256--259
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 260--263
+
+ []
+
+
+LaTeX Warning: Citation `frank' on page 2 undefined on input line 278.
+
+[2]
+
+LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 298.
+
+
+Underfull \hbox (badness 1102) in paragraph at lines 331--333
+[]\OT1/ptm/m/n/10 In or-der to over-come this is-sue, the \OT1/ptm/m/it/10 PGM 
+\OT1/ptm/m/n/10 method
+ []
+
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
+put line 335.
+
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
+
+ []
+
+
+LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 368.
+
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
+
+ []
+
+
+LaTeX Warning: Citation `frank' on page 4 undefined on input line 414.
+
+
+LaTeX Warning: Citation `frank' on page 4 undefined on input line 452.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 452--453
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 466--467
+
+ []
+
+[4]
+Overfull \hbox (3.10649pt too wide) detected at line 484
+\OML/cmm/m/it/10 h[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 k []\OT1/cmr/m/n/10 (\O
+MS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 m[]\OT1/cmr/m/n/10 )\OMS/cmsy/m/n/10 j ^^@ \
+OT1/cmr/m/n/10 (\OML/cmm/m/it/10 m[]\OT1/cmr/m/n/10 )[]\OMS/cmsy/m/n/10 j[]  ([
+])  \OML/cmm/m/it/10 h[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 k\OMS/cmsy/m/n/10 r
+[]\OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10 k ^^@ \OML/cmm/m/it/10 m[]\OMS/cmsy/m/n/10 
+k[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+Overfull \hbox (18.94969pt too wide) detected at line 561
+[]
+ []
+
+[5]
+
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 675.
+
+
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 676.
+
+
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 677.
+
+[6]
+
+LaTeX Warning: Citation `frank' on page 7 undefined on input line 684.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 705--706
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 711--714
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 722--723
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 726--729
+
+ []
+
+
+LaTeX Warning: Citation `momentum' on page 7 undefined on input line 745.
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 7
+60.
+(/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [7]
+Underfull \hbox (badness 10000) in paragraph at lines 922--923
+
+ []
+
+
+Underfull \hbox (badness 2269) in paragraph at lines 927--928
+[]\OT1/ptm/m/n/10 For tar-geted at-tacks in-stead re-sults are com-pletely
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 927--928
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 931--935
+
+ []
+
+[8]
+Underfull \hbox (badness 2547) in paragraph at lines 936--937
+[]\OT1/ptm/m/n/10 The \OT1/ptm/m/it/10 MI-FGSM\OT1/ptm/m/n/10 , in-stead, is on
+ av-er-age the fastest
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 936--937
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 938--940
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 954--955
+[]\OT1/ptm/m/n/10 The val-ues of $\OML/cmm/m/it/10 "$ \OT1/ptm/m/n/10 we choose
+ to an-a-lyze are:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 954--955
+\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 010\OML/cmm/m/it/10 ; \OT1/c
+mr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 042\OML/cmm/m/it/10 ; \OT1/cmr/m/n
+/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 074\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\
+OML/cmm/m/it/10 :\OT1/cmr/m/n/10 107\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cm
+m/m/it/10 :\OT1/cmr/m/n/10 139\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it
+/10 :\OT1/cmr/m/n/10 171\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\
+OT1/cmr/m/n/10 203\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cm
+r/m/n/10 236\OML/cmm/m/it/10 ;$
+ []
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 954--955
+\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 267\OML/cmm/m/it/10 ; \OT1/c
+mr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 300$\OT1/ptm/m/n/10 . The tested n
+um-ber of it-er-a-tions are:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 954--955
+
+ []
+
+
+Underfull \hbox (badness 2961) in paragraph at lines 971--972
+[]\OT1/ptm/m/n/10 Adversarial stud-ies are in con-tin-u-ous de-vel-op-ment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 971--972
+
+ []
+
+
+LaTeX Warning: Citation `frank' on page 9 undefined on input line 974.
+
+No file egpaper_final.bbl.
+[9]
+<./Images/inceptionv3_untargeted_grid.pdf, id=141, 1445.4pt x 722.7pt>
+File: ./Images/inceptionv3_untargeted_grid.pdf Graphic file (type pdf)
+<use ./Images/inceptionv3_untargeted_grid.pdf>
+Package pdftex.def Info: ./Images/inceptionv3_untargeted_grid.pdf  used on inpu
+t line 999.
+(pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
+<./Images/InceptionV3-targeted_grid.pdf, id=142, 1445.4pt x 722.7pt>
+File: ./Images/InceptionV3-targeted_grid.pdf Graphic file (type pdf)
+<use ./Images/InceptionV3-targeted_grid.pdf>
+Package pdftex.def Info: ./Images/InceptionV3-targeted_grid.pdf  used on input 
+line 1005.
+(pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
+<./Images/ResNet-untargeted_grid.pdf, id=143, 1445.4pt x 722.7pt>
+File: ./Images/ResNet-untargeted_grid.pdf Graphic file (type pdf)
+<use ./Images/ResNet-untargeted_grid.pdf>
+Package pdftex.def Info: ./Images/ResNet-untargeted_grid.pdf  used on input lin
+e 1011.
+(pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
+<./Images/ResNet-targeted_grid.pdf, id=144, 1445.4pt x 722.7pt>
+File: ./Images/ResNet-targeted_grid.pdf Graphic file (type pdf)
+<use ./Images/ResNet-targeted_grid.pdf>
+Package pdftex.def Info: ./Images/ResNet-targeted_grid.pdf  used on input line 
+1017.
+(pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
+<./Images/MobileNet-Untargeted.jpeg, id=145, 1284.8pt x 642.4pt>
+File: ./Images/MobileNet-Untargeted.jpeg Graphic file (type jpg)
+<use ./Images/MobileNet-Untargeted.jpeg>
+Package pdftex.def Info: ./Images/MobileNet-Untargeted.jpeg  used on input line
+ 1023.
+(pdftex.def)             Requested size: 496.85625pt x 248.42752pt.
+<./Images/Mobile_Grid_Targeted.png, id=146, 1445.4pt x 722.7pt>
+File: ./Images/Mobile_Grid_Targeted.png Graphic file (type png)
+<use ./Images/Mobile_Grid_Targeted.png>
+Package pdftex.def Info: ./Images/Mobile_Grid_Targeted.png  used on input line 
+1029.
+(pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
+ [10
+
+ <./Images/inceptionv3_untargeted_grid.pdf> <./Images/InceptionV3-targeted_grid
+.pdf
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./Images/InceptionV3-targete
+d_grid.pdf): PDF inclusion: multiple pdfs with page group included in a single 
+page
+>] [11 <./Images/ResNet-untargeted_grid.pdf> <./Images/ResNet-targeted_grid.pdf
+
+
+pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./Images/ResNet-targeted_gri
+d.pdf): PDF inclusion: multiple pdfs with page group included in a single page
+>] [12 <./Images/MobileNet-Untargeted.jpeg> <./Images/Mobile_Grid_Targeted.png>
+] (./egpaper_final.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 10703 strings out of 478994
+ 158087 string characters out of 5858184
+ 568094 words of memory out of 5000000
+ 27905 multiletter control sequences out of 15000+600000
+ 431034 words of font info for 84 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 83i,12n,88p,855b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texl
+ive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texliv
+e/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/
+2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
+21/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2021/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2021/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2021/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2021/texmf-di
+st/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2021/texm
+f-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2021/t
+exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2021/texmf-dis
+t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/ty
+pe1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on egpaper_final.pdf (12 pages, 434328 bytes).
+PDF statistics:
+ 503 PDF objects out of 1000 (max. 8388607)
+ 220 compressed objects within 3 object streams
+ 69 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+

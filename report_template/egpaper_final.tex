@@ -151,7 +151,7 @@ Models tend to misclassify such examples that are slightly different from the co
 The surprising thing is that this behaviour is proper of a wide variety of machine learning models: adversarial examples reveal some blind spots in the state-of-the-art training algorithms. \\
 
 Many hypothesis have been made to explain such behaviour, a lot of which are related with complexity and depth of the neural networks. 
-In Goodfellow \cite{goodfellow}, it is shown that it is sufficient to have a simple linear model in order to fool it with adversarial examples. It is interesting to notice that an adversarial example generated for one model is often misclassified by other models, moreover these models generally agree on the output by missclassifying a single sample into the same class. This can be explained as a result of ‘adversarial directions’ being highly related to the weights vectors of the model and the fact that in order to provide an adversarial example what matter the most are these directions and not the specific points in space. Moreover different models learn similar function when trained to perform the same task. We refer to this property as \textit{transferability} of the adversarial example. \\ 
+In Goodfellow \cite{goodfellow}, it is shown that it is sufficient to have a simple linear model in order to fool it with adversarial examples. It is interesting to notice that an adversarial example generated for one model is often misclassified by other models, moreover these models generally agree on the output by misclassifying a single sample into the same class. This can be explained as a result of ‘adversarial directions’ being highly related to the weights vectors of the model and the fact that in order to provide an adversarial example what matter the most are these directions and not the specific points in space. Moreover different models learn similar function when trained to perform the same task. We refer to this property as \textit{transferability} of the adversarial example. \\ 
 
 In this project, our goal is to implement four different algorithms for Adversarial Attacks. 
 According to Rinaldi \cite{rinaldi}, Goodfellow \cite{goodfellow}, Dong \cite{momentum} and Chen \cite{frank}, we use the \textit{Projected Gradient}, the \textit{Fast Gradient Sign}, the \textit{Momentum Iterative Fast Gradient Sign} and the \textit{Frank-Wolfe-white} methods. 
@@ -531,7 +531,7 @@ The function $f(\cdot)$ is $L$-smooth with respect to $x$, i.e. for any $x$, $x'
 \end{equation*}
 This condition is also equivalent to the following one: 
 \begin{equation*}
-    \nabla f(x') - \nabla f(x) \le L \Vert x'-x \Vert_2\,.
+    \Vert \nabla f(x') - \nabla f(x) \Vert_2 \le L \Vert x'-x \Vert_2\,.
 \end{equation*}
 \end{ass}
 
@@ -582,10 +582,11 @@ By the initialization of the momentum in Algorithm \ref{FW}, we have that $m_0 =
 
 
 \begin{theo}
-Under assumptions \ref{ass1} and \ref{ass2}, let $\gamma_t= \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$, the output of Algorithm \ref{FW} satisfies
+Under assumptions \ref{ass1} and \ref{ass2}, let $\gamma_t= \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$, the output of Algorithm \ref{FW} satisfies:
 \begin{equation*}
-    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}\,.
+    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}\,,
 \end{equation*}
+where $ \Tilde{g}_T= \min_{1 \le k \le T}g(x_k)$. 
 \end{theo}
 
 Therefore the Frank Wolfe white-box attack algorithm achieves a $O(1/\sqrt{T})$ convergence rate.
@@ -611,7 +612,6 @@ And on the other hand in line 5 we find:
 \begin{equation*}
     v_t= \argmin_{v \in C}\langle v,m_t \rangle \implies \langle v_t,m_t \rangle  \le  \langle \Tilde{v}_t, m_t \rangle \,.
 \end{equation*}
-
 Combining both the previous inequalities: 
 \begin{align*}
     &f( x_{t+1}) \le f(x_t) + \gamma m_{t}^T ( \Tilde{v}_t - x_t) +\\
@@ -713,11 +713,11 @@ For untargeted attacks, we stop our algorithms when the label assigned to the di
 While for targeted attacks, we stop our methods when the label assigned from the network to the distorted image is identical to the wanted one.\\ 
 
 %*** how we did backprop 
-*** mettere fonti ? ***
+%*** mettere fonti ? ***
 
 In order to retrieve the gradient from the models above, \textbf{TensorFlow} platform provides an important tool for machine learning called \textbf{GradientTape}. 
-GradientTape is an object that you need to declare in your code which is able to record operation executed by tensorflow.
-its main methods, \textit{watch} and \textit{gradient}, are useful since they allow us to observe the processes going on inside the models and, from this information, perform the automatic differentation with respect to some specific variable.
+GradientTape is an object that you need to declare in your code which is able to record operation executed by TensorFlow.
+Its main methods, \textit{watch} and \textit{gradient}, are useful since they allow us to observe the processes going on inside the models and, from this information, perform the automatic differentiation with respect to some specific variable.
 
 In our code, we use the function \textit{watch}, that traces the image's tensor we input to the model, and the function \textit{gradient} to obtain the gradient of the loss function with respect the input variable.\\
 
@@ -926,7 +926,7 @@ It also has the highest possible distortion of all the three models, equal to $\
 
 For targeted attacks instead results are completely different: \textit{FGSM} is completely unsuccessful and it does not fool any proposed model. The distortion value is not computed because no effective adversarial image has been produced. Since it is not an iterative method it is very difficult in only one step to retrieve an image with the wanted label. \\
 
-Differently from \textit{FGSM}, \textit{PGM} is an iterative methods that performs better both on untargeted and targeted attacks, even though the success rate on Resnet V2 is lower than the other two models. The average number of iterations is the highest with respect to \textit{MI-FGSM} and \textit{FW-white}, perhaps because it does not make use of any acceleration technique. 
+Differently from \textit{FGSM}, \textit{PGM} is an iterative methods that performs better both on untargeted and targeted attacks, even though the success rate on ResNet V2 is lower than the other two models. The average number of iterations is the highest with respect to \textit{MI-FGSM} and \textit{FW-white}, perhaps because it does not make use of any acceleration technique. 
 
 The average distortion varies a lot between untargeted and targeted attacks. 
 For the first type of attacks, the distortion is really low in all three model.
@@ -963,10 +963,12 @@ The blue line is for the \textit{FGSM}, the red one is for the \textit{PGM}, the
 
 \section{Conclusion}
 
-We have implemented 4 different algorithms for adversarial attacks, and our results are in line with the literature we have considered. The \textit{FGSM} is the worst performing method since it is a non iterative method, on the other hand we can see that by adding a momentum term and some iteration, i.e. with \textit{MI-FGSM} the adversarial attacks reach good performances. The main disadvatage of the \textit{MI-FGSM} is that it achieves good success rates at the cost of  high distortion. Moreover, as we can see in all the tables reported, the \textit{PG} Method has the worst results in the AvgIt columns and this is reasonable since the method in question needs to perform a projection outside the convex set at each iteration. In conclusion we can confirm that the overall best performances are given by the \textit{FW-White} algorithm that it is able to reach an excellent success rate while mantaining a low level of image distortion and a decent number of iterations.
+We have implemented four different algorithms for adversarial attacks, and our results are in line with the literature we have considered. The \textit{FGSM} is the worst performing method since it is a non iterative method. On the other hand we can see that by adding a momentum term and some iteration, i.e. with \textit{MI-FGSM} the adversarial attacks reach good performances. The main disadvantage of the \textit{MI-FGSM} is that it achieves good success rates at the cost of  high distortion. Moreover, as we can see in all the tables reported, the \textit{PG} Method has the worst results in the \textit{AvgIt} columns and this is reasonable since the method in question needs to perform a projection outside the convex set at each iteration.
+
+In conclusion we can confirm that the overall best performances are given by the \textit{FW-White} algorithm that it is able to reach an excellent success rate while maintaining a low level of image distortion and a decent number of iterations.
 We tested all the algorithms on three different pre-trained models, we can see that the majority of methods is able to fool neural networks successfully. However the model architecture attacked has a crucial impact on the performances, indeed the most robust model is \textit{Inception ResNet V2} that has a peculiar architecture compared to the other two models.
 
-Adversarial studies are in continuos divelopment thus we can expect further analysis as well as higher performances and results in different networks in the near future.\\
+Adversarial studies are in continuous development thus we can expect further analysis as well as higher performances and results in different networks in the near future.\\
 
 ****
 We can conclude that the expectation for \textit{Inception V3} are met since our results are comparable with \cite{frank}.
