@@ -463,40 +463,52 @@ We can suppose that the final adversarial image will have smaller distortion wit
 
 \subsubsection{LMO closed-form solution} \label{LMO}
 
-\begin{prop}The LMO defined in line 4 has a closed-form solution both for $L_2$ and $L_\infty$. \\
+\begin{prop}The LMO defined in line 5 of Algorithm \ref{FW} has a closed-form solution both for $L_2$ and $L_\infty$. \\
 \end{prop}
 \begin{proof}
 Let $\textbf{h}=(x - x_{\text{ori}})/ \epsilon$. Then considering line 4 we have:
 \begin{align*}
     \argmin_{\Vert x - x_{\text{ori}} \Vert_p \le \epsilon} \langle x, m_t \rangle &= \argmin_{\Vert h \Vert_p \le 1} \epsilon \cdot \langle h,m_t \rangle \\
-    &= \argmax_{\Vert h \Vert_p \le 1} \epsilon \cdot \langle h, -m_t \rangle 
+    &= \argmax_{\Vert h \Vert_p \le 1} \epsilon \cdot \langle h, -m_t \rangle \,.
 \end{align*}
 
-By H\"{o}lder's inequality (element wise), the maximum value is reached when: 
+Recalling the H\"{o}lder's inequality, in our case we obtain that: 
 \begin{equation*}
-    \left | h_i \right | = c \cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}
+    \vert \langle h, -m_t \rangle \vert \le \Vert h \Vert_p \, \Vert -m_t \Vert_q \,, \quad \text{where } p+q = p\,q.
 \end{equation*}
 
-Since $\Vert h \Vert_p \le 1$ we have:
-
+For a proper constant $k$, it is known that the maximum value is obtained if we require that: 
 \begin{equation*}
-    h_i= - \frac{\sign((m_t)_i)\cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}}{(\sum_{i=1}^d \left | (m_t)_i \right |^{\frac{1}{p-1}} )^{\frac{1}{p}}}
+    h_i = k \sign(-m_t) \vert -(m_t)_i \vert^{q-1} 
+    \iff h_i = k \nabla_i (\Vert -m_t \Vert_q) .
 \end{equation*}
 
-And,
+Deriving by component and knowing the condition on $q=p/(p-1)$, we have:
+\begin{align*}
+    h_i &= \frac{\partial}{\partial (m_t)_i} \Big( \sum_{i=1}^d \vert (-m_t)_i\vert^q \Big)^{\frac{1}{q}} \\
+    &= \Big( \sum_{i=1}^d \vert (m_t)_i \vert^q \Big)^{(\frac{1}{q})-1} \vert (m_t)_i \vert^{q-1} \sign(-(m_t)_i)\\
+    &= \Big( \sum_{i=1}^d \vert (m_t)_i \vert^{\frac{p}{p-1}} \Big)^{-\frac{1}{p}} \vert (m_t)_i \vert^{\frac{1}{p-1}} \sign(-(m_t)_i)\,.
+\end{align*}
+
+In the end we find that: 
 \begin{equation*}
-      x_i=\epsilon \cdot - \frac{\sign((m_t)_i)\cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}}{(\sum_{i=1}^d \left | (m_t)_i \right |^{\frac{1}{p-1}} )^{\frac{1}{p}}} + (x_{\text{ori}})_i
+    h_i = - \frac{\sign((m_t)_i) \vert (m_t)_i\vert^{\frac{1}{p-1}}}{\Big( \sum_{i=1}^d \vert (m_t)_i \vert^{\frac{p}{p-1}} \Big)^\frac{1}{p}}\,.
+\end{equation*}
+
+From the definition of $h$, we can isolate $x$, which a single component is given by:
+\begin{equation*}
+      x_i=\epsilon \cdot - \frac{\sign((m_t)_i)\cdot \left | (m_t)_i \right |^{\frac{1}{p-1}}}{(\sum_{i=1}^d \left | (m_t)_i \right |^{\frac{1}{p-1}} )^{\frac{1}{p}}} + (x_{\text{ori}})_i\,.
 \end{equation*}
 
 % DECIDE IF WE WANT TO KEEP CASE P=2
-For $p=2$ we have
-\begin{equation*}
-    v_t= - \frac{\epsilon \cdot m_t}{\Vert m_t \Vert_2} + x_{\text{ori}}
-\end{equation*}
+%For $p=2$ we have
+%\begin{equation*}
+%    v_t= - \frac{\epsilon \cdot m_t}{\Vert m_t \Vert_2} + x_{\text{ori}}
+%\end{equation*}
 
-For $p= \infty$ we have
+In our case, for $p= \infty$ we have
 \begin{equation*}
-    v_t = - \epsilon \cdot \sign(m_t) + x_{\text{ori}}
+    v_t = - \epsilon \cdot \sign(m_t) + x_{\text{ori}}\,.
 \end{equation*}
 \end{proof}
 
@@ -507,21 +519,21 @@ For $T=1$ Algorithm \ref{FW} reduces to the \textit{FGSM}.
 \subsubsection{Convergence Analysis for FW-White}
 
 We are in a constrained optimization setting and in general the loss function for common DNN models are non-convex, thus the gradient norm of $f$ is no longer a proper convergence criterion. We then adapt as a criterion the Frank-Wolfe gap:
-
 \begin{equation} \label{gap}
-    g(x_t)= \max_{x \in C} \langle  x-x_t, - \nabla f(x_t) \rangle
+    g(x_t)= \max_{x \in C} \langle  x-x_t, - \nabla f(x_t) \rangle \,.
 \end{equation}
 
-There are 2 essential assumption to make in order to provide the convergence guarantee of the algorithm.
-
+There are two essential assumption to make in order to provide the convergence guarantee of the algorithm.
 \begin{ass}\label{ass1}
-Function $f(\cdot)$ is L-smooth with respect to $x$, i.e. for any $x$, $x'$ it holds that:
+The function $f(\cdot)$ is $L$-smooth with respect to $x$, i.e. for any $x$, $x'$ it holds that:
 \begin{equation*}
-    f(x') \le f(x) + \nabla f(x)^T (x' - x) + \frac{L}{2} \Vert x' -x \Vert_{2}^2
+    f(x') \le f(x) + \nabla f(x)^T (x' - x) + \frac{L}{2} \Vert x' -x \Vert_{2}^2\,.
+\end{equation*}
+This condition is also equivalent to the following one: 
+\begin{equation*}
+    \nabla f(x') - \nabla f(x) \le L \Vert x'-x \Vert_2\,.
 \end{equation*}
 \end{ass}
-
-
 
 
 \begin{ass}\label{ass2}
@@ -530,134 +542,125 @@ Set $C$ is bounded with diameter $D$, i.e. $\Vert x' -x \Vert_{2} \le D$ for all
 \end{ass}
 
 \begin{lemma}
-Under assumptions \ref{ass2} and \ref{ass1}, for $m_t$ in Algorithm \ref{FW}, it holds that
-
+\label{lemm}
+Under assumptions \ref{ass1} and \ref{ass2}, for $m_t$ in Algorithm \ref{FW}, it holds that:
 \begin{equation*}
-    \Vert \nabla f(x_t) - m_t \Vert_{2} \le \frac{\gamma LD}{ 1 - \beta}
+    \Vert \nabla f(x_t) - m_t \Vert_{2} \le \frac{\gamma LD}{ 1 - \beta}\,.
 \end{equation*}
 \end{lemma}
 
 \begin{proof}
-By definition of $m_t$ in line 3 we have that the fist term is:
-
+By definition of $m_t$ in line 4 we have that the first term is:
 \begin{align*}
     \Vert \nabla & f(x_t) - m_t \Vert_2 = \\
     &= \Vert \nabla f(x_t) - \beta m_{t-1} - (1- \beta) \nabla f(x_t) \Vert_2\\
     &= \beta \cdot \Vert \nabla f(x_t) - m_{t-1} \Vert_{2}\\
-    &= \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t_1}) + \nabla f(x_{t-1}) - m_{t-1} \Vert_{2}\\
-    &\le \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t_1}) \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t_1}) - m_{t-1} \Vert_{2} \\
-    &\le \beta L \Vert x_t - x_{t-1} \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t_1} - m_{t-1} \Vert_{2}
+    &= \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t-1}) + \nabla f(x_{t-1}) - m_{t-1} \Vert_{2}\\
+    &\le \beta \cdot \Vert \nabla f(x_t) - \nabla f(x_{t-1}) \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t-1}) - m_{t-1} \Vert_{2} \\
+    &\le \beta L \Vert x_t - x_{t-1} \Vert_{2} + \beta \cdot \Vert \nabla f(x_{t-1} - m_{t-1}) \Vert_{2}\,.
 \end{align*}
 
-     
-    
-    
-
-This holds exploiting the triangle inequality and assumption \ref{ass1}. Looking at line 6 and using assumption \ref{ass2} we also have:
-
+This holds exploiting the triangle inequality and assumption \ref{ass1}. 
+Looking at line 7 and using the assumption \ref{ass2} we also have:
 \begin{align*}
     \Vert x_t - x_{t-1} \Vert_{2} & = \gamma \Vert d_{t-1} \Vert_{2} \\
-    &= \gamma \Vert v_{t-1} - x_{t-1} \Vert_{2} \le \gamma D
+    &= \gamma \Vert v_{t-1} - x_{t-1} \Vert_{2} \le \gamma D\,.
 \end{align*}
 
-Combining both these estimates yields:
-
+Combining both these estimates and iterating the inequality on $t$, it yields to:
 \begin{align*}
-    \Vert \nabla f & (x_t) - m_t \Vert_2 \le \\
-    &\le \gamma ( \beta LD + \beta^2 LD + \dots + \beta^t \Vert \nabla f(x_0) - m_0 \Vert_2 ) \\
-    & = \gamma(\beta L D + \beta^2 L D + \dots + \beta^{t-1} L D) \\
-    & \le \frac{\gamma L D}{ 1 -\beta}
+    \Vert \nabla f & (x_t) - m_t \Vert_2 \le 
+    \\
+    &\le \gamma ( \beta LD + \beta^2 LD + \dots + \beta^t \Vert \nabla f(x_0) - m_0 \Vert_2 ) \,.
 \end{align*}
-
-
-    
+By the initialization of the momentum in Algorithm \ref{FW}, we have that $m_0 = \nabla f(x_0)$:
+\begin{align*}
+    \Vert \nabla f &(x_t) - m_t \Vert_2 \le \gamma(\beta L D + \beta^2 L D + \dots + \beta^{t-1} L D)\\
+    &\le \gamma LD \sum_{k=1}^{t-1} \beta^k \le \gamma LD \sum_{k=0}^{\infty} \beta^k \le \frac{\gamma LD }{1-\beta}\,.
+\end{align*}
 \end{proof}
 
 
 \begin{theo}
-Under assumptions \ref{ass2} and \ref{ass1}, let $\gamma_t= \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$, the output of Algorithm \ref{FW} satisfies
+Under assumptions \ref{ass1} and \ref{ass2}, let $\gamma_t= \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$, the output of Algorithm \ref{FW} satisfies
 \begin{equation*}
-    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}
+    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}\,.
 \end{equation*}
 \end{theo}
 
 Therefore the Frank Wolfe white-box attack algorithm achieves a $O(1/\sqrt{T})$ convergence rate.
-
 \begin{proof}
 
-By assumption \ref{ass1}, we have:
+Recalling that $x_{t+1} = x_t + \gamma (v_t-x_t)$ and by assumption \ref{ass1}, we have:
 \begin{align*}
     f(x_{t+1}) & \le f(x_t) \nabla f(x_t)^T ( x_{t+1} - x_t) + \frac{L}{2} \Vert x_{t+1} - x_t \Vert_{2}^2 \\
     &= f(x_t) \gamma \nabla f(x_t)^T ( v_t - x_t) + \frac{L \gamma^2}{2} \Vert v_t - x_t \Vert_{2}^2\\
     & \le f(x_t) \gamma \nabla f(x_t)^T ( v_t - x_t) + \frac{L D^2 \gamma^2}{2}\\
     &= f(x_t) + \gamma m_{t}^T ( v_t - x_t) +\\
-    &+ \gamma(\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} 
+    &+ \gamma(\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} \,.
 \end{align*}
 Now we use the auxiliary quantity:
 \begin{equation*}
-    \Tilde{v}_t = \argmin_{x \in C} \langle v, \nabla f(x_t) \rangle 
+    \Tilde{v}_t = \argmin_{x \in C} \langle v, \nabla f(x_t) \rangle = \argmax_{x \in C} \langle v, -\nabla f(x_t) \rangle \,.
 \end{equation*}
-
-The Frank Wolfe gap (\ref{gap}) implies:
-
+This is one optimal solution for the Frank Wolfe gap problem (\ref{gap}) and it implies:
 \begin{equation*}
-    g(x_t)= - \langle \Tilde{v}_t -x_t, \nabla f(x_t) \rangle 
+    g(x_t)= - \langle \Tilde{v}_t -x_t, \nabla f(x_t) \rangle \,.
 \end{equation*}
-
 And on the other hand in line 5 we find:
 \begin{equation*}
-    v_t= \argmin_{v \in C}\langle v,m_t \rangle \implies \langle v_t,m_t \rangle  \le  \langle \Tilde{v}_t, m_t \rangle 
+    v_t= \argmin_{v \in C}\langle v,m_t \rangle \implies \langle v_t,m_t \rangle  \le  \langle \Tilde{v}_t, m_t \rangle \,.
 \end{equation*}
 
-Combining both the previous equations:
-
+Combining both the previous inequalities: 
 \begin{align*}
-    f(& x_{t+1}) \le f(x_t) + \gamma m_{t}^T ( \Tilde{v}_t - x_t) +\\
-    & + \gamma (\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} \\
+    &f( x_{t+1}) \le f(x_t) + \gamma m_{t}^T ( \Tilde{v}_t - x_t) +\\
+    &\qquad + \gamma (\nabla f(x_t) - m_t)^T (v_t - x_t) + \frac{L D^2 \gamma^2}{2} \\
     & = f(x_t) + \gamma \nabla f(x_t)^T (\Tilde{v}_t - x_t) + \\
-    &+ \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \frac{L D^2 \gamma^2}{2}\\
-    &= f(x_t) - \gamma g(x_t) + \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \frac{L D^2 \gamma^2}{2} \\
-    & \le  f(x_t) - \gamma g(x_t) + \gamma D \Vert \nabla f(x_t) - m_t \Vert_2 + \frac{L D^2 \gamma^2}{2}
+    &\qquad+ \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \frac{L D^2 \gamma^2}{2}\\
+    &= f(x_t) - \gamma g(x_t) + \gamma (\nabla f(x_t) - m_t)^T (v_t - \Tilde{v}_t) + \\
+    &\qquad +\frac{L D^2 \gamma^2}{2}\,.
+     %& \le  f(x_t) - \gamma g(x_t) + \gamma D \Vert \nabla f(x_t) - m_t \Vert_2 + \frac{L D^2 \gamma^2}{2}\,.
+\end{align*}
+Thanks to the Cauchy-Schwarz inequality and the Assumption \ref{ass2}, we can write that: 
+\begin{align*}
+    f(x_{t+1}) \le  &f(x_t) - \gamma g(x_t) + \gamma D \Vert \nabla f(x_t) - m_t \Vert_2 + \\
+    &+\frac{L D^2 \gamma^2}{2}\,.
 \end{align*}
 
-The last inequality holds thanks to Cauchy-Schwarz inequality. Recalling the previous lemma we have:
-
+Recalling the previous Lemma \ref{lemm} and substituting we have:
 \begin{equation*}
-    \Vert \nabla f(x_t) - m_t \Vert_{2} \le \frac{\gamma LD}{ 1 - \beta}
-\end{equation*}
-
-And substituting we obtain:
-\begin{equation*}
-    f(x_{t+1} \le f(x_t) - \gamma g(x_t) + \frac{L D^2 \gamma^2}{1 - \beta} + \frac{L D^2 \gamma^2}{2}
+    f(x_{t+1}) \le f(x_t) - \gamma g(x_t) + \frac{L D^2 \gamma^2}{1 - \beta} + \frac{L D^2 \gamma^2}{2}\,.
 \end{equation*}
 
 Considering all the iterations from $t=0, \dots, T-1$:
 \begin{equation*}
-    f(x_{T}) \le f(x_0) - \sum_{t=0}^{T-1} \gamma g(x_t) + \frac{T L D^2 \gamma^2}{1 - \beta} + \frac{T L D^2 \gamma^2}{2}
+    f(x_{T}) \le f(x_0) - \sum_{t=0}^{T-1} \gamma g(x_t) + \frac{T L D^2 \gamma^2}{1 - \beta} + \frac{T L D^2 \gamma^2}{2}\,.
 \end{equation*}
 
-Isolating $g(\cdot)$:
-
+Isolating the sum of $g(\cdot)$:
 \begin{align*}
-    \frac{1}{T}\sum_{t=0}^{T-1} g(x_t) & \le \frac{f(x_0)-f(x_T)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2})\\
-    & \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2})
+    \frac{1}{T}\sum_{t=0}^{T-1} g(x_t) & \le \frac{f(x_0)-f(x_T)}{T\gamma} + \gamma \Big(\frac{ L D^2 }{1 - \beta} + \frac{ L D^2 }{2}\Big)\\
+    & \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma \Big(\frac{ L D^2 }{1 - \beta} + \frac{ L D^2 }{2}\Big)\,,
 \end{align*}
+where the last inequality is obtained by $f(x_T) \ge f(x^\ast)$, due to the optimality of $x^*$ for the minimization problem.
 
-Where we consider that $f(x_T) \ge f(x^\ast)$
-
-In conclusion:
+The first term of the inequality is the average of $g(\cdot)$ among the iteration, so we can state that:
 \begin{equation*}
-    \Tilde{g}_T= \min_{1 \le k \le T}g(x_k) \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma \Big(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2} \Big)
+    \Tilde{g}_T= \min_{1 \le k \le T}g(x_k) \le \frac{1}{T}\sum_{t=0}^{T-1} g(x_t)\,.
+\end{equation*}
+In conclusion, we have that:
+\begin{equation*}
+    \Tilde{g}_T= \le \frac{f(x_0)-f(x^\ast)}{T\gamma} + \gamma \Big(\frac{ L D^2 \gamma}{1 - \beta} + \frac{ L D^2 \gamma}{2} \Big)\,.
 \end{equation*}
 
-If we let $ \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$ where $C_{\beta}=(3-\beta)/(1-\beta)$ we have:
+If we let $ \gamma= \sqrt{2(f(x_0)- f(x^\ast))/(C_\beta L D^2 T )}$ and $C_{\beta}=(3-\beta)/(1-\beta)$, we have:
 
 \begin{equation*}
-    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}
+    \Tilde{g}_T \le \sqrt{ \frac{2C_\beta L D^2 (f(x_0)- f(x^\ast))}{T}}\,.
 \end{equation*}
 
 \end{proof}
-
 
 
 %-------------------------------------------------------------------------
@@ -916,15 +919,26 @@ As a mean to compare the results, we use three different attributes:
 \end{tabular}
 \end{center}
 
-In this section, we report tables showing the results of our experiments for both untargeted and targeted attacks ( for targeted attacks we chose the sea lion class with index 150 in the ImageNet database):
-Starting from the \textit{FGSM} we can easily notice that it has no average iterations reported since it is a one step method. Anyway its performance on untargeted attacks are variable: the success rate on MobileNet V2 network is very satisfying while on inception ResNet V2 it looks very disappointing since it does not even reach a $50$ \% success rate.
+In this section, we report tables showing the results of our experiments for both untargeted and targeted attacks (for targeted attacks we choose the \textit{sea lion} class with index 150 in the ImageNet database).\\
+
+Starting from the \textit{FGSM} we can easily notice that it has no average iterations reported since it is a one step method. Anyway its performance on untargeted attacks is variable: the success rate on MobileNet V2 network is very satisfying while on Inception ResNet V2 it looks very disappointing since it does not even reach a $50$ \% success rate.
 It also has the highest possible distortion of all the three models, equal to $\epsilon = 0.05$ which makes the difference between the original and the distorted image very noticeable with a naked eye.
-For targeted attacks instead results are completely different: FGSM is completely unsuccessful and it does not fool any proposed model. The distortion value is not computed because no effective adversarial image has been produced. Since it is not an iterative method it is very difficult in only one step to retrieve an image with the wanted label.
-Differently from FGSM, PGM is an iterative methods that performs better both on untargeted and targeted attacks even though the success rate on Resnet V2 is lower than the other two models. The average number of iterations is the highest with respect to MI-FGSM and FW-white and perhaps because it does not make use of any acceleration technique. The average distortion varies a lot between untargeted and targeted attacks: for the first type of attacks the distortion is really low in all three model, while for the second type of attacks is higher even though all type of attacks seem to produce images having a higher distortion ( probably points produced by PGM for targeted attacks are rarely in the convex set, thus, the projection operator outputs points that are near the boundary of the convex set leading to a relatively large distortion).
-MI-FGSM, instead, is on average the fastest method for both targeted and untargeted attacks thank to the momentum technique that guarantees an  accelerated convergence towards the global minimum/maximum of the function. Its success rate is optimal for targeted attacks (100 \%) and excellent for untargeted attacks where it does not go below 95 \%. However, its fast convergence is compensated by a very high distortion, mainly for targeted attacks where it always equal to the epsilon set as input.
-FW-white represents a good balance between the average number of iterations and and a low image distortion: infact, the number of iterations is always greater or equal than MI-FGSM but less than PGD, while distortion is always the lowest among all methods making the distorted image not even barely discernible from the original one. Success rate, instead, is usually a bit worse than MI-FGSM (in untargeted attacks) but anyway excellent.
-By taking a closer look to the tables it is also possible to notice that ResNet V2 looks the most robust model: this is probably due to the massive usage of skip connections and non-linear activation functions making adversarial attacks more difficult.
-\
+
+For targeted attacks instead results are completely different: \textit{FGSM} is completely unsuccessful and it does not fool any proposed model. The distortion value is not computed because no effective adversarial image has been produced. Since it is not an iterative method it is very difficult in only one step to retrieve an image with the wanted label. \\
+
+Differently from \textit{FGSM}, \textit{PGM} is an iterative methods that performs better both on untargeted and targeted attacks, even though the success rate on Resnet V2 is lower than the other two models. The average number of iterations is the highest with respect to \textit{MI-FGSM} and \textit{FW-white}, perhaps because it does not make use of any acceleration technique. 
+
+The average distortion varies a lot between untargeted and targeted attacks. 
+For the first type of attacks, the distortion is really low in all three model.
+While for the second type of attacks, it is higher, even though all type of attacks seem to produce images having a higher distortion.
+Probably points produced by \textit{PGM} for targeted attacks are rarely in the convex set, thus, the projection operator outputs points that are near the boundary of the convex set leading to a relatively large distortion. \\
+
+The \textit{MI-FGSM}, instead, is on average the fastest method for both targeted and untargeted attacks, thank to the momentum technique that guarantees an  accelerated convergence towards the global minimum/maximum of the function. Its success rate is optimal for targeted attacks (100 \%) and excellent for untargeted attacks where it does not go below 95 \%. However, its fast convergence is compensated by a very high distortion, mainly for targeted attacks where it always equals to the epsilon set as input.\\
+
+The \textit{FW-white} represents a good balance between the average number of iterations and a low image distortion.
+In fact, the number of iterations is always greater or equal than \textit{MI-FGSM} but less than \textit{PGM}, while distortion is always the lowest among all methods, making the distorted image not even barely discernible from the original one. The success rate, instead, is usually a bit worse than the \textit{MI-FGSM} (in untargeted attacks) but anyway excellent. \\
+
+By taking a closer look to the tables, it is also possible to notice that ResNet V2 looks the most robust model: this is probably due to the massive usage of skip connections and non-linear activation functions, making adversarial attacks more difficult.
 
 \section{Comparison between the algorithms ***}
 \label{section:graphs}
