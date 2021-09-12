@@ -760,7 +760,7 @@ As a mean to compare the results, we use three different attributes:
     \item the \textit{average distortion}: it is computed as the mean of $\Vert x_{\text{ori}} - x^\ast \Vert_{\infty}$ for all the adversarial examples $x^*$. This average is done only on the successful adversarial images, since we believe it makes no sense to consider the unsuccessful ones' perturbation. 
 \end{itemize}
 
-\subsection{Untargeted attacks}
+\subsection{Results}
 
 %In the table below, there are summarized the success rates for all 4 algorithms in both white box attacks and black box attack, i.e we generate the image on a model and attack the other.
 
@@ -783,21 +783,7 @@ As a mean to compare the results, we use three different attributes:
 % & FW-white &DZ & $cose$*\\
 % \hline
 %\end{tabular}
-
-In this section, we have three tables reporting the results for untargeted attacks. 
-
-As we notice before, the \textit{FGSM} has no average iteration, since it is a one-step method. 
-It also has the highest distortion in all three models, that coincides with $\epsilon = 0.05$. 
-
-The \textit{PGM} turns out to need more iterations than the other two iterative algorithms. 
-
-Instead, the \textit{MI-FGSM} has the lowest number of iteration, but has higher distortion that the other two iterative ones. 
-
-Finally, as written in Chen \cite{frank}, the \textit{FW-white} is a good trade-off between an acceptable average iterations and a very low distortion of the adversarial image. \\
-
-*** to expand the comments *** 
-
-\subsubsection{Inception V3}
+\subsubsection{Inception V3 (untargeted)}
 
 \begin{center}
 
@@ -815,7 +801,7 @@ Finally, as written in Chen \cite{frank}, the \textit{FW-white} is a good trade-
 \end{center}
 
 
-\subsubsection{Inception ResNet V2}
+\subsubsection{Inception ResNet V2 (untargeted)}
 
 \begin{center}
     
@@ -833,7 +819,7 @@ Finally, as written in Chen \cite{frank}, the \textit{FW-white} is a good trade-
 \end{tabular}
 \end{center}
 
-\subsubsection{Mobile Net V2}
+\subsubsection{MobileNet V2 (untargeted)}
 
 \begin{center}
     
@@ -850,7 +836,6 @@ Finally, as written in Chen \cite{frank}, the \textit{FW-white} is a good trade-
 \end{tabular}
 \end{center}
 
-\subsection{Targeted attacks}
 
 %Here we report our success rate for targeted attack on both Inception V3 and Inception V4.\\
 
@@ -874,26 +859,8 @@ Finally, as written in Chen \cite{frank}, the \textit{FW-white} is a good trade-
 % \hline
 %\end{tabular}
 
-Here there are other three tables with the results for targeted attacks. 
-As target class, we use the same for all the models and algorithms. 
-We choose the \textit{sea lion} class with index $150$ of \textit{ImageNet} database. 
 
-The \textit{FGSM} is very unsuccessful, it does not fool any proposed model. 
-In this case, we cannot compute any distortion value, since it is computed only for the adversarial images that actually works. Since it is not an iterative method it is very difficult in only one step
-to retrieve an image with the wanted label.
-
-The \textit{PGM} attacks well in general, except for the \textit{ResNetV2} model. 
-However, it has the lowest success rate and the highest number of iteration with respect the other two iterative algorithms. The average distortion is really high due to the aggressive approach of the method: new points produced by PGM are often not in the convex set and the projection operator gives as output points that are very near the boundary of the convex set.
-
-The only one to complete successfully every attack is the \textit{MI-FGSM}. 
-In our experiments, it has $100\,\%$ success rate, but the image distortion is the highest, coinciding with the maximum possible distortion $\epsilon = 0.05$. On average it is also the method having the lowest number of iterations thank to the momentum technique accelerating the convergence of the algorithm.
-
-The \textit{FW-white} is very successful as well against the three models. 
-It is still the result of a good balance between medium average iteration and a low value for the adversarial image distortion. \\
-
-*** to expand the comments *** 
-
-\subsubsection{Inception V3}
+\subsubsection{Inception V3 (targeted)}
 
 \begin{center}
     
@@ -912,7 +879,7 @@ It is still the result of a good balance between medium average iteration and a 
 \end{center}
 
 
-\subsubsection{Inception ResNet V2}
+\subsubsection{Inception ResNet V2 (targeted)}
 
 \begin{center}
     
@@ -930,7 +897,7 @@ It is still the result of a good balance between medium average iteration and a 
 \end{tabular}
 \end{center}
 
-\subsubsection{Mobile Net V2}
+\subsubsection{MobileNet V2 (targeted)}
 
 \begin{center}
     
@@ -948,6 +915,15 @@ It is still the result of a good balance between medium average iteration and a 
 \end{tabular}
 \end{center}
 
+In this section, we report tables showing the results of our experiments for both untargeted and targeted attacks ( for targeted attacks we chose the sea lion class with index 150 in the ImageNet database):
+Starting from the \textit{FGSM} we can easily notice that it has no average iterations reported since it is a one step method. Anyway its performance on untargeted attacks are variable : the success rate on MobileNet V2 network is very satisfying while on inception ResNet V2 it looks very disappointing since it does not even reach a $50$ \% success rate.
+It also has the highest possible distortion of all the three models, equal to $\epsilon = 0.05$ which makes the difference between the original and the distorted image very noticeable with a naked eye.
+For targeted attacks instead results are completely different : FGSM is completely unsuccessful and it does not fool any proposed model. The distortion value is not computed because no effective adversarial image has been produced. Since it is not an iterative method it is very difficult in only one step to retrieve an image with the wanted label.
+Differently from FGSM, PGM is an iterative methods that performs better both on untargeted and targeted attacks even though the success rate on Resnet V2 is lower than the other two models. The average number of iterations is the highest with respect to MI-FGSM and FW-white and perhaps because it does not make use of any acceleration technique. The average distortion varies a lot between untargeted and targeted attacks : for the first type of attacks the distortion is really low in all three model, while for the second type of attacks is higher even though all type of attacks seem to produce images having a higher distortion ( probably points produced by PGM for targeted attacks are rarely in the convex set, thus, the projection operator outputs points that are near the boundary of the convex set leading to a relatively large distortion).
+MI-FGSM, instead, is on average the fastest method for both targeted and untargeted attacks thank to the momentum technique that guarantees an  accelerated convergence towards the global minimum/maximum of the function. Its success rate is optimal for targeted attacks (100 \%) and excellent for untargeted attacks where it does not go below 95 \%. However, its fast convergence is compensated by a very high distortion, mainly for targeted attacks where it always equal to the epsilon set as input.
+FW-white represents a good balance between the average number of iterations and and a low image distortion : infact, the number of iterations is always greater or equal than MI-FGSM but less than PGD, while distortion is always the lowest among all methods making the distorted image not even barely discernible from the original one. Success rate, instead, is usually a bit worse than MI-FGSM (in untargeted attacks) but anyway excellent.
+By taking a closer look to the tables it is also possible to notice that ResNet V2 looks the most robust model : this is probably due to the massive usage of skip connections and non-linear activation functions making adversarial attacks more difficult.
+\
 
 \section{Comparison between the algorithms ***}
 \label{section:graphs}
