@@ -712,8 +712,9 @@ While for targeted attacks, we stop our methods when the label assigned from the
 %*** how we did backprop 
 *** mettere fonti ? ***
 
-To retrieve the gradient from the models above, \textbf{TensorFlow} platform provides an important tool for machine learning such as \textbf{GradientTape}. 
-Its functions, like \textit{watch} and \textit{gradient}, that allow us to observe the processes inside the models and, from this information, perform the back-propagation with respect to some specific variable.
+In order to retrieve the gradient from the models above, \textbf{TensorFlow} platform provides an important tool for machine learning called \textbf{GradientTape}. 
+GradientTape is an object that you need to declare in your code which is able to record operation executed by tensorflow.
+its main methods, \textit{watch} and \textit{gradient}, are useful since they allow us to observe the processes going on inside the models and, from this information, perform the automatic differentation with respect to some specific variable.
 
 In our code, we use the function \textit{watch}, that traces the image's tensor we input to the model, and the function \textit{gradient} to obtain the gradient of the loss function with respect the input variable.\\
 
