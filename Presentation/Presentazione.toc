@@ -1,0 +1,8 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {american}{}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {1}{Definizioni di giochi differenziali, di equilibri di Nash markoviano \\ \,\,\,\,e open-loop. \\ \,\,\,\,Teoremi di condizioni sufficienti per gli equilibri di Nash. \\ \,\,\,\,Consistenza temporale e perfezione nei sottogiochi.}{8}{0}{1}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {2}{Formalizzazione del modello economico tratto dall'articolo di\\ \,\,\,\,J{\o }rgensen e Sigué «A Lanchester\,-Type Dynamic Game of \\ \,\,\,\,Advertising and Pricing». \\ \,\,\,\,Determinazione dell'equilibrio di Nash markoviano. }{12}{0}{2}
+\defcounter {refsection}{0}\relax 
+\beamer@sectionintoc {3}{Determinazione dell'equilibrio di Nash open-loop. \\ \,\,\,\,Confronto delle soluzioni trovate tramite i due approcci. }{15}{0}{3}
