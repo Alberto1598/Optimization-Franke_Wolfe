@@ -458,9 +458,9 @@ Thanks to the momentum term $m_t$, the LMO direction is stabilized and the conve
 
 In line 5, we exploit the closed-form solution for the LMO for the $L_\infty$ norm case. 
 The proof of this formulation is in the following Section \ref{LMO} and here we just write the full update rule of line 7:
-\begin{equation*}
-    x_{t+1} = x_t - \gamma \, \epsilon \cdot \sign(m_t) - \gamma (x_t - x_{\text{ori}}) \,.
-\end{equation*}
+\begin{equation}
+    x_{t+1} = x_t - \gamma \, \epsilon \cdot \sign(m_t) - \gamma (x_t - x_{\text{ori}}) \,. \label{update-}
+\end{equation}
 The last term of the equation above enforces $x_t$ to be close to $x_{\text{ori}}$ for all of the iterations. 
 We can suppose that the final adversarial image will have smaller distortion with respect to the other algorithms and this is the main advantage of the \textit{FW} method with momentum. 
 
@@ -942,7 +942,7 @@ In fact, the number of iterations is always greater or equal than \textit{MI-FGS
 
 By taking a closer look to the tables, it is also possible to notice that ResNet V2 looks the most robust model: this is probably due to the massive usage of skip connections and non-linear activation functions, making adversarial attacks more difficult.
 
-\section{Comparison between the algorithms} 
+\section{Comparison between the models} 
 \label{section:graphs}
 % COMPARISON OF 
 % - Computational cost in iterations 
@@ -987,7 +987,8 @@ This is certainly due to its one-step nature that does not allow it to complete 
 In the $\epsilon$-distortion rate sub-graphs we appreciate different trends. 
 The \textit{MI-FGSM} line grows according to $\epsilon$ and reaches the top of the graphs. 
 Also the \textit{PGM} has a similar behaviour, but it stops way before the \textit{MI-FGSM}. 
-The \textit{FW-white} is linearly dependent on the $\epsilon$ values and *** ??? this is a strange behaviour ??? *** . 
+The \textit{FW-white} is linearly dependent on the $\epsilon$ values. 
+This is probably due to the update rule (\ref{update-}), that is linear in the $\epsilon$ variable. 
 The \textit{FGSM} is almost always down to $0$, recalling that the distortion is computed only for the successful attacks. 
 Its strange behaviour in the Inception V3 model (Figure \ref{incV3-t}) is due to the randomness of the success and we believe it has not to be kept in consideration. 
 
