@@ -49,8 +49,6 @@ def compute_gradient(input_image, input_label, loss_object, model):
 # Input the image to the model and return the gradient values 
 
 def input_network(model, image, index) :
-    
-    # 208 for labrador 
 
     image_probs = model.pretrained_model.predict(image)
     prediction = model.get_imagenet_label(image_probs)
@@ -95,8 +93,6 @@ def untargeted(images, model, function, epsilon, stepsize=0.03, maxit = 20):
       old_image_probs = model.pretrained_model.predict(images[i][0])
       # get the label and the respective class
       _, old_image_class, old_class_confidence = model.get_imagenet_label(old_image_probs)
-      # get the loss and the gradient for the image
-      loss, gradient, prediction = input_network(model, images[i][0], images[i][1])
       # create the new noisy image
       new_image = function(model, images[i][0], images[i][1], epsilon) 
       # predict the label for the noisy image
@@ -180,8 +176,6 @@ def targeted(images, model, function, label_index, label_class, epsilon, stepsiz
       old_image_probs = model.pretrained_model.predict(images[i][0])
       # get the label and the respective class
       _, old_image_class, old_class_confidence = model.get_imagenet_label(old_image_probs)
-      # get the loss and the gradient for the image
-      loss, gradient, prediction = input_network(model, images[i][0], images[i][1])
       # create the new noisy image
       new_image = function(model, images[i][0], label_index, epsilon) 
       # predict the label for the noisy image
