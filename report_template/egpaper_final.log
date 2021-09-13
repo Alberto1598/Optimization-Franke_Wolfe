@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.28)  12 SEP 2021 23:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.28)  13 SEP 2021 14:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -548,11 +548,6 @@ LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 1
 (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
 )
-Underfull \hbox (badness 1014) in paragraph at lines 149--152
-\OT1/ptm/m/n/10 ob-tained by mod-i-fy-ing ex-am-ples drawn from the data
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 149--152
 
  []
@@ -561,37 +556,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 149--152
 LaTeX Warning: Citation `goodfellow' on page 1 undefined on input line 154.
 
 
-Underfull \hbox (badness 1742) in paragraph at lines 153--155
+Underfull \hbox (badness 1742) in paragraph at lines 153--157
 []\OT1/ptm/m/n/10 Many hy-poth-e-sis have been made to ex-plain such
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--155
+Underfull \hbox (badness 10000) in paragraph at lines 153--157
 
  []
 
 
-LaTeX Warning: Citation `rinaldi' on page 1 undefined on input line 157.
+LaTeX Warning: Citation `rinaldi' on page 1 undefined on input line 159.
 
 
-LaTeX Warning: Citation `goodfellow' on page 1 undefined on input line 157.
+LaTeX Warning: Citation `goodfellow' on page 1 undefined on input line 159.
 
 
-LaTeX Warning: Citation `momentum' on page 1 undefined on input line 157.
+LaTeX Warning: Citation `momentum' on page 1 undefined on input line 159.
 
 
-LaTeX Warning: Citation `frank' on page 1 undefined on input line 157.
+LaTeX Warning: Citation `frank' on page 1 undefined on input line 159.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 207--208
+Underfull \hbox (badness 10000) in paragraph at lines 209--210
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--210
+Underfull \hbox (badness 10000) in paragraph at lines 211--212
 
  []
 
@@ -599,87 +594,84 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--210
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 220--223
+Underfull \hbox (badness 10000) in paragraph at lines 222--225
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 224--227
+Underfull \hbox (badness 10000) in paragraph at lines 226--229
 
  []
 
 
-Underfull \hbox (badness 3343) in paragraph at lines 232--234
+Underfull \hbox (badness 3343) in paragraph at lines 234--236
 []\OT1/ptm/m/n/10 As an er-ror mea-sure, we de-fine a loss func-tion
  []
 
 
-Underfull \hbox (badness 2990) in paragraph at lines 232--234
+Underfull \hbox (badness 2990) in paragraph at lines 234--236
 \OT1/ptm/m/n/10 multi-classification pur-pose, is known as \OT1/ptm/m/it/10 Cat
 -e-gor-i-cal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 232--234
+Underfull \hbox (badness 10000) in paragraph at lines 234--236
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 256--259
+Underfull \hbox (badness 10000) in paragraph at lines 258--261
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 260--263
+Underfull \hbox (badness 10000) in paragraph at lines 262--265
 
  []
 
 
-LaTeX Warning: Citation `frank' on page 2 undefined on input line 278.
+LaTeX Warning: Citation `frank' on page 2 undefined on input line 280.
 
 [2]
 
-LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 298.
-
-
-Underfull \hbox (badness 1102) in paragraph at lines 331--333
-[]\OT1/ptm/m/n/10 In or-der to over-come this is-sue, the \OT1/ptm/m/it/10 PGM 
-\OT1/ptm/m/n/10 method
- []
+LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 300.
 
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 335.
+put line 337.
 
-Underfull \hbox (badness 10000) in paragraph at lines 353--354
+LaTeX Warning: Reference `sect:proje' on page 3 undefined on input line 354.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 356--357
 
  []
 
 
-LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 368.
+LaTeX Warning: Citation `goodfellow' on page 3 undefined on input line 371.
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 370--371
+Underfull \hbox (badness 10000) in paragraph at lines 373--374
 
  []
 
 
-LaTeX Warning: Citation `frank' on page 4 undefined on input line 414.
+LaTeX Warning: Citation `frank' on page 4 undefined on input line 417.
 
 
-LaTeX Warning: Citation `frank' on page 4 undefined on input line 452.
+LaTeX Warning: Citation `frank' on page 4 undefined on input line 455.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 452--453
+Underfull \hbox (badness 10000) in paragraph at lines 455--456
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 466--467
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
 
  []
 
 [4]
-Overfull \hbox (3.10649pt too wide) detected at line 484
+Overfull \hbox (3.10649pt too wide) detected at line 487
 \OML/cmm/m/it/10 h[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 k []\OT1/cmr/m/n/10 (\O
 MS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 m[]\OT1/cmr/m/n/10 )\OMS/cmsy/m/n/10 j ^^@ \
 OT1/cmr/m/n/10 (\OML/cmm/m/it/10 m[]\OT1/cmr/m/n/10 )[]\OMS/cmsy/m/n/10 j[]  ([
@@ -689,95 +681,90 @@ k[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
  []
 
 
-Overfull \hbox (18.94969pt too wide) detected at line 561
+Overfull \hbox (18.94969pt too wide) detected at line 564
 []
  []
 
 [5]
 
-LaTeX Warning: Citation `keras' on page 6 undefined on input line 675.
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 678.
 
 
-LaTeX Warning: Citation `keras' on page 6 undefined on input line 676.
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 679.
 
 
-LaTeX Warning: Citation `keras' on page 6 undefined on input line 677.
+LaTeX Warning: Citation `keras' on page 6 undefined on input line 680.
 
 [6]
 
-LaTeX Warning: Citation `frank' on page 7 undefined on input line 684.
+LaTeX Warning: Citation `frank' on page 7 undefined on input line 687.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 705--706
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 711--714
+Underfull \hbox (badness 10000) in paragraph at lines 712--715
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 722--723
+Underfull \hbox (badness 10000) in paragraph at lines 723--724
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--729
+Underfull \hbox (badness 10000) in paragraph at lines 727--730
 
  []
 
 
-LaTeX Warning: Citation `momentum' on page 7 undefined on input line 745.
+LaTeX Warning: Citation `momentum' on page 7 undefined on input line 747.
 
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 7
-60.
+62.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [7]
-Underfull \hbox (badness 10000) in paragraph at lines 922--923
+Underfull \hbox (badness 10000) in paragraph at lines 924--925
 
  []
 
 
-Underfull \hbox (badness 2269) in paragraph at lines 927--928
+Underfull \hbox (badness 2269) in paragraph at lines 929--930
 []\OT1/ptm/m/n/10 For tar-geted at-tacks in-stead re-sults are com-pletely
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 927--928
+Underfull \hbox (badness 10000) in paragraph at lines 929--930
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 931--935
+Underfull \hbox (badness 10000) in paragraph at lines 933--937
 
  []
 
-[8]
-Underfull \hbox (badness 2547) in paragraph at lines 936--937
+
+Underfull \hbox (badness 2547) in paragraph at lines 938--939
 []\OT1/ptm/m/n/10 The \OT1/ptm/m/it/10 MI-FGSM\OT1/ptm/m/n/10 , in-stead, is on
  av-er-age the fastest
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 936--937
+Underfull \hbox (badness 10000) in paragraph at lines 938--939
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 938--940
+Underfull \hbox (badness 10000) in paragraph at lines 940--942
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 954--955
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 956--957
 []\OT1/ptm/m/n/10 The val-ues of $\OML/cmm/m/it/10 "$ \OT1/ptm/m/n/10 we choose
  to an-a-lyze are:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 954--955
+Underfull \hbox (badness 10000) in paragraph at lines 956--957
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 010\OML/cmm/m/it/10 ; \OT1/c
 mr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 042\OML/cmm/m/it/10 ; \OT1/cmr/m/n
 /10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 074\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 0\
@@ -789,69 +776,84 @@ r/m/n/10 236\OML/cmm/m/it/10 ;$
  []
 
 
-Underfull \hbox (badness 3439) in paragraph at lines 954--955
+Underfull \hbox (badness 3439) in paragraph at lines 956--957
 \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 267\OML/cmm/m/it/10 ; \OT1/c
 mr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 300$\OT1/ptm/m/n/10 . The tested n
 um-ber of it-er-a-tions are:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 954--955
+Underfull \hbox (badness 10000) in paragraph at lines 956--957
 
  []
 
 
-Underfull \hbox (badness 2961) in paragraph at lines 971--972
-[]\OT1/ptm/m/n/10 Adversarial stud-ies are in con-tin-u-ous de-vel-op-ment
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 971--972
+Underfull \hbox (badness 10000) in paragraph at lines 963--965
 
  []
 
 
-LaTeX Warning: Citation `frank' on page 9 undefined on input line 974.
+Underfull \hbox (badness 10000) in paragraph at lines 980--982
 
-No file egpaper_final.bbl.
+ []
+
+
+Underfull \hbox (badness 1270) in paragraph at lines 1001--1002
+[]\OT1/ptm/m/n/10 We have im-ple-mented four dif-fer-ent al-go-rithms for
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1001--1002
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1003--1005
+
+ []
+
 [9]
-<./Images/inceptionv3_untargeted_grid.pdf, id=141, 1445.4pt x 722.7pt>
+No file egpaper_final.bbl.
+[10
+
+]
+<./Images/inceptionv3_untargeted_grid.pdf, id=152, 1445.4pt x 722.7pt>
 File: ./Images/inceptionv3_untargeted_grid.pdf Graphic file (type pdf)
 <use ./Images/inceptionv3_untargeted_grid.pdf>
 Package pdftex.def Info: ./Images/inceptionv3_untargeted_grid.pdf  used on inpu
-t line 999.
+t line 1030.
 (pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
-<./Images/InceptionV3-targeted_grid.pdf, id=142, 1445.4pt x 722.7pt>
+<./Images/InceptionV3-targeted_grid.pdf, id=153, 1445.4pt x 722.7pt>
 File: ./Images/InceptionV3-targeted_grid.pdf Graphic file (type pdf)
 <use ./Images/InceptionV3-targeted_grid.pdf>
 Package pdftex.def Info: ./Images/InceptionV3-targeted_grid.pdf  used on input 
-line 1005.
+line 1036.
 (pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
-<./Images/ResNet-untargeted_grid.pdf, id=143, 1445.4pt x 722.7pt>
+<./Images/ResNet-untargeted_grid.pdf, id=154, 1445.4pt x 722.7pt>
 File: ./Images/ResNet-untargeted_grid.pdf Graphic file (type pdf)
 <use ./Images/ResNet-untargeted_grid.pdf>
 Package pdftex.def Info: ./Images/ResNet-untargeted_grid.pdf  used on input lin
-e 1011.
+e 1042.
 (pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
-<./Images/ResNet-targeted_grid.pdf, id=144, 1445.4pt x 722.7pt>
+<./Images/ResNet-targeted_grid.pdf, id=155, 1445.4pt x 722.7pt>
 File: ./Images/ResNet-targeted_grid.pdf Graphic file (type pdf)
 <use ./Images/ResNet-targeted_grid.pdf>
 Package pdftex.def Info: ./Images/ResNet-targeted_grid.pdf  used on input line 
-1017.
+1048.
 (pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
-<./Images/MobileNet-Untargeted.jpeg, id=145, 1284.8pt x 642.4pt>
+<./Images/MobileNet-Untargeted.jpeg, id=156, 1284.8pt x 642.4pt>
 File: ./Images/MobileNet-Untargeted.jpeg Graphic file (type jpg)
 <use ./Images/MobileNet-Untargeted.jpeg>
 Package pdftex.def Info: ./Images/MobileNet-Untargeted.jpeg  used on input line
- 1023.
+ 1054.
 (pdftex.def)             Requested size: 496.85625pt x 248.42752pt.
-<./Images/Mobile_Grid_Targeted.png, id=146, 1445.4pt x 722.7pt>
+<./Images/Mobile_Grid_Targeted.png, id=157, 1445.4pt x 722.7pt>
 File: ./Images/Mobile_Grid_Targeted.png Graphic file (type png)
 <use ./Images/Mobile_Grid_Targeted.png>
 Package pdftex.def Info: ./Images/Mobile_Grid_Targeted.png  used on input line 
-1029.
+1060.
 (pdftex.def)             Requested size: 496.85625pt x 248.4275pt.
- [10
+ [11
 
  <./Images/inceptionv3_untargeted_grid.pdf> <./Images/InceptionV3-targeted_grid
 .pdf
@@ -859,25 +861,28 @@ Package pdftex.def Info: ./Images/Mobile_Grid_Targeted.png  used on input line
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./Images/InceptionV3-targete
 d_grid.pdf): PDF inclusion: multiple pdfs with page group included in a single 
 page
->] [11 <./Images/ResNet-untargeted_grid.pdf> <./Images/ResNet-targeted_grid.pdf
+>] [12 <./Images/ResNet-untargeted_grid.pdf> <./Images/ResNet-targeted_grid.pdf
 
 
 pdfTeX warning: /Library/TeX/texbin/pdflatex (file ./Images/ResNet-targeted_gri
 d.pdf): PDF inclusion: multiple pdfs with page group included in a single page
->] [12 <./Images/MobileNet-Untargeted.jpeg> <./Images/Mobile_Grid_Targeted.png>
+>] [13 <./Images/MobileNet-Untargeted.jpeg> <./Images/Mobile_Grid_Targeted.png>
 ] (./egpaper_final.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 10703 strings out of 478994
- 158087 string characters out of 5858184
- 568094 words of memory out of 5000000
- 27905 multiletter control sequences out of 15000+600000
+ 10705 strings out of 478994
+ 158106 string characters out of 5858184
+ 570094 words of memory out of 5000000
+ 27906 multiletter control sequences out of 15000+600000
  431034 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 83i,12n,88p,855b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 83i,12n,88p,786b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
 xlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
@@ -896,10 +901,10 @@ exmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2021/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/ty
 pe1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/ti
 mes/utmri8a.pfb>
-Output written on egpaper_final.pdf (12 pages, 434328 bytes).
+Output written on egpaper_final.pdf (13 pages, 436649 bytes).
 PDF statistics:
- 503 PDF objects out of 1000 (max. 8388607)
- 220 compressed objects within 3 object streams
- 69 named destinations out of 1000 (max. 500000)
+ 512 PDF objects out of 1000 (max. 8388607)
+ 228 compressed objects within 3 object streams
+ 70 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
