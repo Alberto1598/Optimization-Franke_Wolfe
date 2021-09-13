@@ -953,13 +953,46 @@ In particular, we are interested in how the success and the distortion rates cha
 
 The values of $\epsilon$ we choose to analyze are: $0.010, 0.042, 0.074, 0.107, 0.139, 0.171, 0.203, 0.236,$  $0.267, 0.300$. The tested number of iterations are: $2,4,6,8,10,12,14,16,18,20$. \\
 
-The figures from \ref{incV3-unt} to \ref{mob-t} are organized in four different graphs. 
+In the Appendix \ref{appendix-fig}, we report the figures from \ref{incV3-unt} to \ref{mob-t}, that are organized in four different sub-graphs. 
+
 The ones in the first row have the range of $\epsilon$ as $x$-axis, and the ones in the second row have the range of maximum iterations. 
 In the left column, there is the success rate as $y$-axis and in the right one there is the distortion rate. 
 
 For all the graphs, we keep the same colour legend. 
-The blue line is for the \textit{FGSM}, the red one is for the \textit{PGM}, the green line is for the \textit{MI-FGSM} and the violet one is for the \textit{FW-white}. 
+The blue line is for the \textit{FGSM}, the red one is for the \textit{PGM}, the green line is for the \textit{MI-FGSM} and the violet one is for the \textit{FW-white}. \\
 
+As a general analysis, we can spot some similarities between the algorithms that attack the three neural networks. 
+Starting from the untargeted attacks figures, the sub-graphs $\epsilon$-success rate show that the most successful methods are the \textit{MI-FGSM} and \textit{FW-white}.
+The \textit{PGM} is little below these two models, but for the Inception ResNet V2 architecture it has the lowest success rate (Figure \ref{res-unt}).
+The \textit{FGSM} line has little variations, it seems to grow with the increasing $\epsilon$ values. 
+
+Considering now the sub-graphs $\epsilon$-distortion rate, the \textit{FGSM} is linearly dependent on $\epsilon$, due to its property to always reach the maximum possible distortion.
+The other three algorithms stays somewhat constant and with low values for distortions. 
+This behaviour is probably given by the stop criteria we adopt, that do not allow them to modify the images too much. 
+
+Regarding to maximum iterations-success rate graphs, they are all three similar. 
+The \textit{MI-FGSM} and \textit{FW-white} are always on the top of the graphs, meaning they are very effective in all three models. 
+The \textit{PGM} has some positive dependence on the iteration value, because, as we have seen before, it is the slowest method due to its projection-based characteristic. 
+If we give it more iteration, it is able to almost reach the success of the other two algorithms (expect for Inception ResNet V2, Figure \ref{res-unt}). 
+
+The fourth graphs, maximum iterations-distortion rate, show pretty much the same trends. 
+The \textit{MI-FGSM} has the highest distortion, the \textit{FW-white} the lowest and we find the \textit{PGM} quite in the middle of the other two. \\
+
+We now move on to the targeted attacks graphs, starting from the $\epsilon$-success rate sub-graphs. 
+It is similar to the untargeted attacks version, apart from the \textit{FGSM} that is approximately constant to $0$. 
+This is certainly due its one-step nature that does not allow it to complete any targeted attacks. 
+
+In the $\epsilon$-distortion rate sub-graphs we appreciate different trends. 
+The \textit{MI-FGSM} line grows according to $\epsilon$ and reaches the top of the graphs. 
+Also the \textit{PGM} has a similar behaviour, but it stops way before the \textit{MI-FGSM}. 
+The \textit{FW-white} is linearly dependent on the $\epsilon$ values and *** ??? this is a strange behaviour ??? *** . 
+The \textit{FGSM} is almost always down to $0$, recalling that the distortion is computed only for the successful attacks. 
+Its strange behaviour in the Inception V3 model (Figure \ref{incV3-t}) is due to the randomness of the success and we believe it has not to be kept in consideration. 
+
+The other two graphs with the variable maximum iterations are very similar to their untargeted attacks versions. 
+The only visible difference is in the maximum iterations-success rate, where we see a definite curved growth for all the three algorithms. \\
+
+These graphs meet all our analysis done in the previous sections and *** ??? *** 
 
 \section{Conclusion}
 
@@ -997,37 +1030,37 @@ The methods works best in \textit{Inception V3} and also reach good results in b
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/inceptionv3_untargeted_grid.pdf}\\
-  \caption{InceptionV3 - untargeted attack } \label{incV3-unt}
+  \caption{Inception V3 model - untargeted attacks } \label{incV3-unt}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/InceptionV3-targeted_grid.pdf}\\
-  \caption{InceptionV3 - targeted attack } \label{incV3-t}
+  \caption{Inception V3 model - targeted attacks } \label{incV3-t}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/ResNet-untargeted_grid.pdf}\\
-  \caption{ResNet - untargeted attack } \label{res-unt}
+  \caption{Inception ResNet-V2 model - untargeted attacks } \label{res-unt}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/ResNet-targeted_grid.pdf}\\
-  \caption{ResNet - targeted attack } \label{res-t}
+  \caption{Inception ResNet-V2 model - targeted attacks } \label{res-t}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/MobileNet-Untargeted.jpeg}\\
-  \caption{MobileNet - untargeted attack } \label{mob-unt}
+  \caption{MobileNet V2 model - untargeted attacks } \label{mob-unt}
 \end{figure}
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\textwidth]{./Images/Mobile_Grid_Targeted.png}\\
-  \caption{MobileNet - targeted attack } \label{mob-t}
+  \caption{MobileNet V2 model - targeted attacks } \label{mob-t}
 \end{figure}
 
 
