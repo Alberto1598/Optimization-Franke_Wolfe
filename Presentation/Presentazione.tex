@@ -67,63 +67,131 @@ Master's Degree in Data Science}
 \end{frame}
 
 \begin{frame}{Introduction to Adversarial attacks}
+Adversarial image: element drawn from data distribution that is perturbed with some noise
     \begin{itemize}
-        \item What are in general 
-        \item Untargeted and targeted attacks 
-        \item White and Black box attack
+            \item Misclassification: distorted image is not properly recognized by the DNN
+            \item Transferability: different DNNs misclassify in the same way
     \end{itemize}
+\medskip
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{Images/original.png}\\
+  %\caption{Original image }
+\end{figure}
+\end{column}
+\begin{column}{0.2\textwidth}
+$\to$ adding a small noise, the adversarial image fools the DNN $\to$
+\end{column}
+\begin{column}{0.4\textwidth}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{Images/fw_untargeted.png}\\
+  %\caption{Adversarial image }
+\end{figure}
+\end{column}
+\end{columns}
+
+\blfootnote{Figures obtained from \textit{demo.py}}
+
+\end{frame}
+
+\begin{frame}{Different types of attacks}
+We can decide if we want control on the output target of the adversarial image
+    \begin{itemize}
+        \item \textbf{Untargeted} attacks: just interested in the misclassification 
+        \item \textbf{Targeted} attacks: want a specific  class as output 
+    \end{itemize} 
+\medskip
+According to the information we can retrieve from the DNNs, we can have: 
+\begin{itemize}
+    \item \textbf{White box} attacks: access to all information, also gradients 
+    \item \textbf{Black box} attacks: access only to input and output \\$\to$ techniques for gradient estimation 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{FGSM}
+\textbf{Notation: }
+\begin{itemize}
+    \item  $x_\text{ori}$ : original image
+    \item $\ell(\cdot)$: loss function
+\end{itemize}
+
+\bigskip
+One of the simplest adversarial method and one of first implemented: 
+\begin{itemize}
+    \item One-step 
+    \item Gradient-based 
+\end{itemize}
+\begin{align*}
+    x &= x_\text{ori} + \epsilon \text{sign}(\nabla_x \ell(x_\text{ori}) \qquad \text{(untargeted);} \\
+    x &= x_\text{ori} - \epsilon \text{sign}(\nabla_x \ell(x_\text{ori}) \qquad \text{(untargeted);}
+\end{align*}
+
+\blfootnote{\textit{Explaining and Harnessing Adversarial Examples}, Goodfellow et al. }
+    
 \end{frame}
 
 \begin{frame}{PGM}
+
+\begin{itemize}
+    \item Projection-based approach 
+    \item Slow method 
+\end{itemize}
     \begin{algorithm}[H]
 \caption{PGM}\label{PGD}
 \begin{algorithmic}[1]
 \For{$k=1 \dots$}
-  \State Set $ \bar{x}_k = \rho_C(x_k + s_k \nabla f(x_k))$ \Comment{if untargeted attack, with $s_k > 0$}
-  \State Set $ \bar{x}_k = \rho_C(x_k - s_k \nabla f(x_k))$ \Comment{if targeted $\,\,\,$attack, with $s_k > 0$}
+  \State Set $ \bar{x}_k = \rho_C(x_k + s_k \nabla f(x_k))$ \Comment{if untargeted, $s_k > 0$}
+  \State Set $ \bar{x}_k = \rho_C(x_k - s_k \nabla f(x_k))$ \Comment{if targeted, $s_k > 0$}
   \State If $\bar{x}_k$ satisfies some specific condition, then STOP
   \State Set $x_{k+1} = x_k + \gamma_k (\bar{x}_k - x_k)$ \Comment{with $\gamma_k \in (0, 1]$}
     
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+
+\blfootnote{\textit{Optimization for Data Science Notes}, Rinaldi}
 \end{frame}
 
 \begin{frame}{MI-FGSM}
+\begin{itemize}
+    \item Iterative version of \textit{FGSM}, adding a momentum term 
+    \item High distortion values
+\end{itemize}
+
     \begin{algorithm}[H]
 \caption{MI-FGSM}\label{MI_FGSM}
 \begin{algorithmic}[1]
-%\INPUT{A real example $x$, ground-truth label $y$}
-%\OUTPUT{An adversarial example $x^\ast$}
-%\Require{Size of perturbation $\epsilon$, number of iterations $T$, step size $\gamma$, decay factor $\beta$ }
 
 \State Fix $g_0 = 0$ and $x_{0}^\ast$ %$\gamma = \epsilon / T$
 \For{$t=0$ to $T-1$}
     \State Input $x_t$ and obtain the gradient $\nabla_x f(x_t)$
 
-    \State Accumulate velocity \begin{equation*}
-        g_{t+1} = \beta \cdot g_t + \frac{\nabla_x f(x_t)}{\Vert \nabla_x f(x_t) \Vert_1}
-    \end{equation*}
-    
-    \State Update \begin{align*}
-        x_{t+1} = x_t + \gamma \cdot \text{sign} (g_{t+1}) \quad &\text{if untargeted attack}\\ 
-        x_{t+1} = x_t - \gamma \cdot \text{sign} (g_{t+1}) \quad &\text{if targeted attack}
-    \end{align*}
+    \State $
+        g_{t+1} = \beta \cdot g_t + \frac{\nabla_x f(x_t)}{\Vert \nabla_x f(x_t) \Vert_1}$
+    \State $
+        x_{t+1} = x_t + \gamma \cdot \text{sign} (g_{t+1}) $ \Comment{if untargeted}
+    \State $x_{t+1} = x_t - \gamma \cdot \text{sign} (g_{t+1}) $ \Comment{if targeted}
     
 \EndFor
 \end{algorithmic}
 \end{algorithm}
+
+\blfootnote{\textit{Boosting Adversarial Attacks with Momentum}, Dong et al.}
 \end{frame}
 
 
 \begin{frame}{FW-white}
-    
+\begin{itemize}
+    \item Projection-free method 
+    \item Good trade-off between success-distortion 
+\end{itemize}
     \begin{algorithm}[H]
 \caption{FW-White}\label{FW}
 \begin{algorithmic}[1]
-%\INPUT{Number of iterations T, step size $ \gamma$}
-%\OUTPUT{An adversarial example $x_T$}
-
 \State Set $x_0 = x_{\text{ori}}$, $m_{-1} = - \nabla_x f(x_0)$ if untargeted attack, $m_{-1} = \nabla_x f(x_0)$ if targeted attack
 \For{$t=0$ to $T-1$}
     \State $m_t = \beta \cdot m_{t-1} - (1-\beta) \cdot \nabla f(x_t) $ \Comment{if untargeted}
@@ -135,277 +203,13 @@ Master's Degree in Data Science}
 \EndFor
 \end{algorithmic}
 \end{algorithm}
-\end{frame}
 
+\blfootnote{\textit{A Frank-Wolfe Framework for Efficient and Effective
+Adversarial Attacks}, Chen et al.}
+\end{frame}
 
 \begin{frame}{Demo.py}
     Now we hand over the word to Alberto so that we can see a demo of our project. 
-\end{frame}
-
-
-
-% cose tesi da copiare :) ********************************** 
-
-%SLIDE 2: INDICE
-\begin{frame}
-\frametitle{Indice}
-\tableofcontents
-\end{frame}
-
-%SEZIONE: DEF GIOCO & EQUILIBRI
-\section{Definizioni di giochi differenziali, di equilibri di Nash markoviano \\
-\,\,\,\,e open-loop.  \\ 
-\,\,\,\,Teoremi di condizioni sufficienti per gli equilibri di Nash. \\ 
-\,\,\,\,Consistenza temporale e perfezione nei sottogiochi.}
-
-%SLIDE 3: DEFINIZIONE GIOCO DIFFERENZIALE DA TOGLIERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-%\begin{frame}
-%\frametitle{Introduzione ai giochi}
-%per fare tutto centrato 
-%\begin{center}
-%La \emph{Teoria dei Giochi} è la disciplina matematica che studia l'evolversi di situazioni conflittuali tra due o più soggetti, detti \emph{giocatori}.
-%    \begin{defn}[Gioco differenziale]
-%    Un \emph{gioco differenziale} è caratterizzato da: 
-%    \begin{itemize}
-%        \item insieme di giocatori $\mathcal{I} = \{1,\dots,N\}$ 
-%        \item variabile temporale $t \in [t_0,t_1]$
-%        \item variabile di stato $x(t) \in \mathbb{R}^n$
-%        \item variabili di controllo $u_i(t) \in U_i \subseteq \mathbb{R}^{m_i}$
-%        \item equazioni del moto $\dot{x}_j = f_j(x(t),u_1(t),\dots,u_N(t),t)$ \\
-%        con condizioni iniziali $x_j(t_0) = x_j^0$ 
-%        \item funzionali obiettivo (o anche \emph{payoff})
-        %\begin{equation*} CON EQUATION E' TROPPO GRANDE E SFORA
- %           $J_i = \int_{t_0}^{t_1} e^{-\rho_i t} f_{0i}(x(t),u_1(t),\dots,u_N(t),t) \, dt + e^{-\rho_i t_1} S_i(x(t_1))$
-        %\end{equation*}
-%    \end{itemize}
-%    \end{defn}
-%\end{center}
-%\end{frame}
-
-%SLIDE 4: EQUILIBRIO DI NASH 
-\begin{frame}
-\frametitle{Equilibrio di Nash}
-%Definizione equilibrio di Nash. 
-%A seconda delle strutture informative, la definizione diventa più specifica. 
-
-Ogni giocatore ha lo scopo di massimizzare il proprio payoff. \\
-Si trovano $N$ problemi di Controllo Ottimo interdipendenti. 
-
-\begin{defn}[Equilibrio di Nash]
-Un \emph{equilibrio di Nash} è una combinazione di strategie $(\hat{\varphi}_1,\dots,\hat{\varphi}_N) \in \times_{i=1}^N U_i$, tale per cui si abbia
-    \[
-    J_i(\hat{\varphi}_1,\dots,\hat{\varphi}_N) \ge 
-    J_i([\varphi_i,\hat{\varphi}_{-i}])
-    \]\blfootnote{Si definisce $[\varphi_i,\hat{\varphi}_{-i}] = (\hat{\varphi}_1,\dots,\hat{\varphi}_{i-1},\varphi_i,\hat{\varphi}_{i+1},\dots,\hat{\varphi}_N)$. \\ \;}
-    per ogni $\varphi_i \in U_i, i = 1,\dots,N$.
-\end{defn}
-
-L'equilibrio di un gioco è determinato anche dalle informazioni disponibili a ciascun giocatore. Si può caratterizzare la definizione a seconda della \emph{struttura informativa}. 
-%L'equilibrio è caratterizzato da una \emph{struttura informativa} che definisce l'informazione disponibile a ciascun giocatore.
-\end{frame}
-
-%SLIDE 5: EQUILIBRI DI NASH MARKOVIANO E OPENLOOP
-\begin{frame}
-\frametitle{Due tipi di equilibri}
-\begin{defn}[Equilibrio di Nash markoviano]
-L'$N$-upla di controlli $(\hat{\varphi}_1,\dots,\hat{\varphi}_N)\in \times_{i=1}^N U_i$ si dice \emph{equilibrio di Nash markoviano} se vale $J_i(\hat{\varphi}_1,\dots,\hat{\varphi}_N) \ge J_i([\varphi_i,\hat{\varphi}_{-i}])$ per ogni giocatore $i \in \mathcal{I}$ e 
-    \[
-    \text{per ogni sua strategia } \varphi_i(t,x(t)) \in U_i.
-    \]
-\end{defn}
-\begin{defn}[Equilibrio di Nash open-loop]
-L'$N$-upla di controlli $(\hat{u}_1,\dots,\hat{u}_N) \in \times_{i=1}^N U_i$ si dice \emph{equilibrio di Nash open-loop} se vale $J_i(\hat{u}_1,\dots,\hat{u}_N) \ge J_i([u_i,\hat{u}_{-i}])$ per ogni giocatore $i \in \mathcal{I}$ e 
-    \[
-    \text{per ogni sua strategia } u_i(t) \in U_i. 
-    \]
-\end{defn}
-\end{frame}
-
-%SLIDE 6: TEOREMA CONDIZIONI SUFFICIENTI HJB
-%siccome è tanta roba, servirà \footnotesize per rimpicciolire le parole
-\begin{frame}
-\footnotesize 
-\frametitle{Teorema di condizioni sufficienti markoviano}
-\begin{thm}[Condizioni sufficienti per l'equilibrio markoviano]
-Sia $(\varphi_1,\dots,\varphi_N)$ una data $N$-upla di funzioni $\varphi_i: [t_0, t_1] \times \mathbb{R}^n \to U_i$ e valgano: 
-\begin{itemize}
-    \item esista una funzione assolutamente continua $x: [t_0, t_1] \to \mathbb{R}^n$ soluzione delle equazioni del moto con le condizioni iniziali,
-    \item per ogni $i \in \mathcal{I}$ esiste una funzione $V^i: [t_0, t_1] \times \mathbb{R}^n \to \mathbb{R}$ differenziabile con continuità tale che sia soddisfatta l'equazione \emph{HJB}:
-    \scriptsize{
-    \[ 
-    \rho_i V^i(t, x) - V_t^i(t, x) = 
-        \max_{u_i \in \mathbb{R}^{m_i}} \bigg\{V_x^i(t,x) f(x, [u_i, \varphi_{-i}], t) + f_{0i}(x, [u_i, \varphi_{-i}], t) \bigg\},
-    \] }
-    \item $V^i(t_1, x) = S_i(x)$ per ogni $i \in \mathcal{I}$ e per ogni $x \in \mathbb{R}^n$.
-\end{itemize}
-Sia $\Phi_i(t,x) = \argmax_{u_i \in \mathbb{R}^{m_i}} \bigg\{V_x^i(t,x) f(x, [u_i, \varphi_{-i}], t) + f_{0i}(x, [u_i, \varphi_{-i}], t) \bigg\}$. \\
-    Se $\varphi_i (t,x) \in \Phi_i(t,x)$ per ogni $i \in \mathcal{I}$ e per ogni $t \in [t_0, t_1]$, allora $(\varphi_1,\dots,\varphi_N)$ è un equilibrio di Nash markoviano.
-\end{thm}
-\end{frame}
-
-%SLIDE 7: TEOREMA CONDIZIONI SUFFICIENTI PMP
-\begin{frame}
-\footnotesize
-\frametitle{Teorema di condizioni sufficienti openloop}
-\begin{thm}[Condizioni sufficienti per l'equilibrio open-loop]
-Sia $(\varphi_1,\dots,\varphi_N)$ una data $N$-upla di funzioni $\varphi_i: [t_0, t_1] \to U_i$ e sia $H^i:\mathbb{R}^n \times \mathbb{R}^{m_i} \times \mathbb{R}^n \times [t_0, t_1] \to \mathbb{R}$ la funzione hamiltoniana:
-    \[
-    H^i(x, u_i, \lambda^i, t) = f_{0i}(x, [u_i, \varphi_{-i}(t)], t) + \lambda^i f(x, [u_i, \varphi_{-i}(t)], t).
-    \]
-Esistano $N$ funzioni continue e di classe $C^1$ a tratti $\lambda^i: [t_0, t_1] \to \mathbb{R}^n$ tali che:
-\begin{itemize}
-        \item 
-        $\varphi_i(t) \in \argmax_{u_i \in \mathbb{R}^{m_i}} H^i(x(t), u_i, \lambda_i(t), t)$ per ogni $t \in [t_0,t_1]$,
-        \item per ogni $t \in [t_0, t_1]$ valga l'\emph{equazione aggiunta}
-        \[
-        \dot{\lambda}^i(t) = - \frac{\partial}{\partial x} H^i(x(t), \varphi_i(t), \lambda^i(t), t) + \rho_i\lambda^i(t),
-        \]
-        \item $\lambda^i(t_1) = \frac{\partial}{\partial x} S_i(x(t_1))$ per ogni $i \in \mathcal{I}$.
-\end{itemize}
-Allora $(\varphi_1,\dots,\varphi_N)$ è un equilibrio di Nash open-loop. 
-\end{thm}
-\end{frame}
-
-%SEZIONE CONDIZIONI SUFFICIENTI
-\section{Formalizzazione del modello economico tratto dall'articolo di\\ \,\,\,\,J{\o}rgensen e Sigué «A Lanchester\,-Type Dynamic Game of \\ \,\,\,\,Advertising and Pricing». \\
-\,\,\,\,Determinazione dell'equilibrio di Nash markoviano. }
-
-
-%DESCRIZIONE DELLE VARIABILI DEL MODELLO
-\begin{frame}
-\frametitle{Il modello di Lanchester}
-
-Modello di Lanchester per un duopolio, con $i,j \in \{1,2\}$: 
-\begin{itemize}
-    \item $x_i(t)$: quota di mercato,
-    \item $a_i(t)$: intensità degli sforzi pubblicitari, 
-    \item dinamica delle variabili di stato, con $i \neq j$:
-    \[
-    \dot{x}_i(t) = \varphi_i a_i(t) x_j(t) - \varphi_j a_j(t) x_i(t).
-    \]
-\end{itemize}
-
-Modello di Lanchester, esteso da J{\o}rgensen e Sigué:
-\begin{itemize}
-    \item $p_i(t)$: prezzo del prodotto al dettaglio, 
-    \item dinamica delle variabili di stato, con $i \neq j$:
-    \[
-    \dot{x}_i(t) = a_i(t) \frac{p_j(t)}{p_i(t)} \sqrt{x_j(t)} - a_j(t) \frac{p_i(t)}{p_j(t)} \sqrt{x_i(t)} .
-    \]
-\end{itemize}
-
-\end{frame}
-
-
-%SLIDE 8: DESCRIZIONE SCHEMATICA DEL MODELLO ECONOMICO
-\begin{frame}
-\frametitle{«A Lanchester\,-Type Dynamic Game»}
-Il gioco differenziale si formalizza in questo modo: 
-%\begin{center}
-\begin{equation*}
-%\boxed{ %NON SO SE METTERE IL BOX
-\begin{split}
-    \text{massimizza   } & J_1(p_1, a_1) = \int_0^T \Big[p_1(t) x_1(t) - \frac{c_1}{2} a_1^2(t)\Big] \, dt + \sigma_1 x_1(T) \\
-    & J_2(p_2, a_2) = \int_0^T \Big[p_2(t) x_2(t) - \frac{c_2}{2} a_2^2(t)\Big] \, dt + \sigma_2 x_2(T) \\ 
-    \text{soggetto a   } &  \dot{x}_1(t) = a_1(t) \frac{p_2(t)}{p_1(t)} \sqrt{x_2(t)} - a_2(t) \frac{p_1(t)}{p_2(t)} \sqrt{x_1(t)} \\
-    & \dot{x}_2(t) = a_2(t) \frac{p_1(t)}{p_2(t)} \sqrt{x_1(t)} - a_1(t) \frac{p_2(t)}{p_1(t)} \sqrt{x_2(t)} \\ 
-    & x_1(0) = x_1^0 \,, \quad  x_2(0) = x_2^0 = 1 - x_1^0 \\ 
-    & x_1(t) + x_2(t) = 1 \quad \forall t \in [0, T] \\ 
-    & x_1(t), x_2(t) \in [0, 1]\quad \forall t \in [0, T] \\ 
-    & a_1(t), a_2(t) \geq 0, \quad p_1(t), p_2(t) > 0 \quad \forall t \in [0, T] 
-\end{split}
-%}
-\end{equation*}
-%\end{center}
-\blfootnote{S. J{\o}rgensen e S. Sigué, «A Lanchester\,-Type Dynamic Game of Advertising and Pricing» (2020) }
-\end{frame}
-
-
-%SLIDE 9: EQUILIBRIO MARKOVIANO 
-\begin{frame}
-\frametitle{Equilibrio di Nash markoviano}
-Condizioni sufficienti per l'equilibrio di Nash markoviano:
-\begin{itemize}
-\item equazioni di \emph{HJB}
-\begin{gather*}
-- \frac{\partial V_1}{\partial t} = \max_{a_1 \geq 0, p_1 > 0} \Big\{ p_1 x_1 - \frac{c_1}{2} a_1^2 + \frac{\partial V_1}{\partial x_1} \dot{x}_1 + \frac{\partial V_1}{\partial x_2} \dot{x}_2 \Big\}, \\
-- \frac{\partial V_2}{\partial t} = \max_{a_2 \geq 0, p_2 > 0} \Big\{ p_2 x_2 - \frac{c_2}{2} a_2^2 + \frac{\partial V_2}{\partial x_2} \dot{x}_2 + \frac{\partial V_2}{\partial x_1} \dot{x}_1 \Big\},
-\end{gather*}
-\item condizioni all'istante finale \\
-\begin{center} $V_1(x_1, x_2, T) = \sigma_1 x_1(T), \quad 
-    V_2(x_1, x_2, T) = \sigma_2 x_2(T)$. \end{center}
-
-\end{itemize}
-Si ipotizza che le funzioni valore $V_1$ e $V_2$ abbiano una forma lineare: 
-\begin{center} 
-$V_1 = \gamma_1(t)\, x_1 + \eta_1(t)\, x_2, \quad 
-V_2 = \gamma_2(t)\, x_2 + \eta_2(t)\, x_1$. \\ \end{center}
-
-Si trovano le strategie ottime per l'equilibrio di Nash markoviano $(\hat{a}_1(x(t),t),\hat{p}_1(x(t),t),\hat{a}_2(x(t),t),\hat{p}_2(x(t),t))$.
-
-\end{frame}
-
-%SEZIONE OPEN-LOOP E CONFRONTO
-\section{Determinazione dell'equilibrio di Nash open-loop. \\ 
-\,\,\,\,Confronto delle soluzioni trovate tramite i due approcci. }
-
-%SLIDE 10: EQUILIBRIO OPEN-LOOP
-\begin{frame}
-\frametitle{Equilibrio di Nash open-loop}
-Condizioni sufficienti per l'equilibrio di Nash open-loop: 
-\begin{itemize}
-    \item Funzioni hamiltoniane
-    \begin{center} $H^1(x_1, x_2, a_1, p_1, \lambda_1, t), \quad 
-    H^2(x_1, x_2, a_2, p_2,\lambda_2, t),$ \end{center}
-    \item Equazioni aggiunte \begin{center}$\dot{\lambda}_1(t) = - p_1(t) + \lambda_1 a_2(t) \frac{p_1(t)}{p_2(t)} \frac{1}{2 \sqrt{x_1(t)}},$ \\ 
-    $\dot{\lambda}_2(t) = - p_2(t) + \lambda_2 a_1(t) \frac{p_2(t)}{p_1(t)} \frac{1}{2 \sqrt{x_2(t)}},$
-    \end{center}
-    \item Condizioni di trasversalità \\
-    \begin{center}$\lambda_1(T) = \sigma_1, \qquad \lambda_2(T) = \sigma_2$.\end{center}
-\end{itemize}
-Si massimizzano le funzioni hamiltoniane e si trovano le variabili di controllo candidate. Infine si determinano le strategie ottime per l'equilibrio di Nash open-loop $(a_1^*(t), p_1^*(t), a_2^*(t), p_2^*(t))$.
-\end{frame}
-
-%SLIDE 11: CONFRONTO EQUILIBRI
-\begin{frame}
-\frametitle{Confronto degli equilibri}
-
-\begin{prop}
-Gli equilibri di Nash markoviano e di Nash open-loop del problema presentato non coincidono.
-\end{prop}
-\begin{proof}[Dimostrazione]
-Si confrontano le strategie pubblicitarie ottime per gli equilibri all'istante iniziale $t=0$, dati i valori $x_1^0, x_2^0$: 
-\footnotesize
-    \[\hat{a}_i(x_1^0, x_2^0, 0) = \frac{2 \sigma_j}{2 c_i - 3T\sigma_j} \frac{x_i^0}{\sqrt{x_j^0}}  \neq 
-    a_i^*(x_1^0, x_2^0, 0) = \frac{\sigma_j}{c_i + 3T \sigma_j} \frac{x_i^0}{\sqrt{x_j^0}}\] \\
-    \normalsize
-per $i,j=1,2$ e $i \neq j$. \\
-\'E sufficiente per concludere che i controlli ottimi hanno traiettorie differenti, e dunque gli equilibri non coincidono. %\qedhere
-
-\end{proof}
-
-\end{frame}
-
-%SLIDE CON COMMENTO SULLA NON CONSISTENZA TEMPORALE DELL'EQUILIBRIO OPEN-LOOP
-\begin{frame}{Conclusioni}
-
-%Un equilibrio di Nash markoviano è sempre perfetto nei sottogiochi. \\
-%L’equilibrio di Nash open-loop lo è solamente se gli è equivalente.
-
-Per il problema considerato, l'equivalenza tra equilibrio di Nash markoviano e di Nash open-loop non è soddisfatta. \\
-
-\bigskip 
-Si può concludere che l'equilibrio di Nash open-loop non è perfetto nei sottogiochi: per piccole perturbazioni lungo il percorso di equilibrio, le strategie originali possono non essere più ottime per uno o entrambi i giocatori.
-    
-\end{frame}
-
-%SLIDE 12: FINALE
-\begin{frame}
-\frametitle{\;}
-\begin{center}
-\Large
-Grazie dell'attenzione. 
-\end{center}
 \end{frame}
 
 \end{document}
