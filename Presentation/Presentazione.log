@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.28)  14 SEP 2021 22:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.6.28)  15 SEP 2021 15:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1624,7 +1624,7 @@ Package logreq Info: Writing requests to 'Presentazione.run.xml'.
 Here is how much of TeX's memory you used:
  31575 strings out of 478994
  581176 string characters out of 5858184
- 1146385 words of memory out of 5000000
+ 1146382 words of memory out of 5000000
  48190 multiletter control sequences out of 15000+600000
  423819 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1647,7 +1647,7 @@ e/2021/texmf-dist/fonts/type1/public/cm-super/sfss1095.pfb></usr/local/texlive/
 21/texmf-dist/fonts/type1/public/cm-super/sfss1728.pfb></usr/local/texlive/2021
 /texmf-dist/fonts/type1/public/cm-super/sfss2074.pfb></usr/local/texlive/2021/t
 exmf-dist/fonts/type1/public/cm-super/sfsx1095.pfb>
-Output written on Presentazione.pdf (9 pages, 1068543 bytes).
+Output written on Presentazione.pdf (9 pages, 1069983 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  111 compressed objects within 2 object streams

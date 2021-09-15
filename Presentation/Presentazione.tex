@@ -67,10 +67,10 @@ Master's Degree in Data Science}
 \end{frame}
 
 \begin{frame}{Introduction to Adversarial attacks}
-Adversarial image: element drawn from data distribution that is perturbed with some noise
+\textbf{Adversarial example}: element drawn from data distribution that is perturbed with some noise
     \begin{itemize}
-            \item Misclassification: distorted image is not properly recognized by the DNN
-            \item Transferability: different DNNs misclassify in the same way
+            \item \textbf{Misclassification}: distorted image is not properly recognized by the DNN
+            \item \textbf{Transferability}: different DNNs misclassify in the same way
     \end{itemize}
 \medskip
 
@@ -120,14 +120,14 @@ According to the information we can retrieve from the DNNs, we can have:
 \end{itemize}
 
 \bigskip
-One of the simplest adversarial method and one of first implemented: 
+One of the simplest adversarial method and one of first that has been implemented: 
 \begin{itemize}
-    \item One-step 
-    \item Gradient-based 
+    \item One-step gradient-based method
+    \item Maximum distortion $\epsilon$
 \end{itemize}
 \begin{align*}
     x &= x_\text{ori} + \epsilon \text{sign}(\nabla_x \ell(x_\text{ori}) \qquad \text{(untargeted);} \\
-    x &= x_\text{ori} - \epsilon \text{sign}(\nabla_x \ell(x_\text{ori}) \qquad \text{(untargeted);}
+    x &= x_\text{ori} - \epsilon \text{sign}(\nabla_x \ell(x_\text{ori}) \qquad \text{(targeted).}
 \end{align*}
 
 \blfootnote{\textit{Explaining and Harnessing Adversarial Examples}, Goodfellow et al. }
@@ -137,7 +137,7 @@ One of the simplest adversarial method and one of first implemented:
 \begin{frame}{PGM}
 
 \begin{itemize}
-    \item Projection-based approach 
+    \item Projection-based iterative approach 
     \item Slow method 
 \end{itemize}
     \begin{algorithm}[H]
@@ -186,8 +186,8 @@ One of the simplest adversarial method and one of first implemented:
 
 \begin{frame}{FW-white}
 \begin{itemize}
-    \item Projection-free method 
-    \item Good trade-off between success-distortion 
+    \item Projection-free method with momentum term
+    \item Good trade-off between success and distortion 
 \end{itemize}
     \begin{algorithm}[H]
 \caption{FW-White}\label{FW}
@@ -204,8 +204,7 @@ One of the simplest adversarial method and one of first implemented:
 \end{algorithmic}
 \end{algorithm}
 
-\blfootnote{\textit{A Frank-Wolfe Framework for Efficient and Effective
-Adversarial Attacks}, Chen et al.}
+\blfootnote{\textit{A Frank-Wolfe Framework for Efficient and Effective Adversarial Attacks}, Chen et al.}
 \end{frame}
 
 \begin{frame}{Demo.py}
