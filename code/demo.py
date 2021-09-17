@@ -61,15 +61,15 @@ print(" distortion : {}".format(distortion))
 plot_image(new_image, prediction, "img/fgsm_untargeted.png" , distortion)
 
 
-# PGD
+# PGM
 
 new_image, loss, it = pgd.PGD_untargeted(model, preprocessed_image, index, label_name)
 prediction = model.pretrained_model.predict(new_image)
 distortion = tf.norm(preprocessed_image - new_image, np.inf)
-print ( "----- PGD -----")
+print ( "----- PGM -----")
 print (" iterations : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/PGD_untargeted.png" , distortion)
+plot_image(new_image, prediction, "img/PGM_untargeted.png" , distortion)
 
 # MI-FGSM
 
@@ -93,7 +93,7 @@ plot_image(new_image, prediction, "img/fw_white_untargeted.png" , distortion)
 
 
 
-print("\n------TARGETED ATTACKS ------ \n")
+print("------TARGETED ATTACKS ------ \n")
 
 index = 97
 label_name = "drake"
@@ -110,15 +110,15 @@ print(" distortion : {}".format(distortion))
 plot_image(new_image, prediction, "img/fgsm_targeted.png" , distortion)
 
 
-# PGD
+# PGM
 
 new_image, loss, it = pgd.PGD_targeted(model, preprocessed_image, index, label_name)
 prediction = model.pretrained_model.predict(new_image)
 distortion = tf.norm(preprocessed_image - new_image, np.inf)
-print ( "----- PGD -----")
+print ( "----- PGM -----")
 print (" iterations : {}".format(it))
 print(" distortion : {}".format(distortion))
-plot_image(new_image, prediction, "img/PGD_targeted.png" , distortion)
+plot_image(new_image, prediction, "img/PGM_targeted.png" , distortion)
 
 # MI-FGSM
 
